@@ -1,0 +1,73 @@
+{
+"prefix" : ".",
+"guild" : "679120108995608598",
+
+
+
+"motivo" : {
+"1" : "Má convivência ou desrespeito.",
+"2" : "Envio de conteúdo NSFW",
+"3" : "Se passando por Staff",
+"4" : "Atrapalhando eventos",
+"5" : "Trapaça em campeonatos",
+"6" : "6",
+"7" : "7",
+"8" : "8",
+"9" : "9"
+},
+
+"dancegif" : [  "https://cdn.discordapp.com/attachments/351504904256356353/710476343921606716/ByFHOIXvW.gif",
+                "https://cdn.discordapp.com/attachments/351504904256356353/710557001616326716/Sla.gif",
+                "https://cdn.discordapp.com/attachments/351504904256356353/710556998315278446/Parabens_ao_desenhista..gif",
+                "https://cdn.discordapp.com/attachments/351504904256356353/710556994402123936/Ninguem_danca_assim.gif",
+                "https://cdn.discordapp.com/attachments/351504904256356353/710556984436326440/O_melhor_GIF_do_mundo._Somente_Apenas..gif" ,
+                "https://cdn.discordapp.com/attachments/351504904256356353/710556969894805535/Ha..._e.gif"
+],
+
+"dancewithgif" : [  "https://cdn.discordapp.com/attachments/351504904256356353/710553394779258931/Odeio_a_asuka.gif",
+                    "https://cdn.discordapp.com/attachments/351504904256356353/710553437409902652/RE_Zero.gif",
+                    "https://cdn.discordapp.com/attachments/351504904256356353/710553452719374477/Sla.gif",
+                    "https://cdn.discordapp.com/attachments/351504904256356353/710553453017170020/Eu_sinceramente_nao_sei..gif",
+                    "https://cdn.discordapp.com/attachments/351504904256356353/710553456728997958/O_pior_gif_do_mundo.gif",
+                    "https://cdn.discordapp.com/attachments/351504904256356353/710553493173436468/Bakugo_e_Shoto.gif"                   
+],
+
+"kissgif" : [  "https://cdn.discordapp.com/attachments/351504904256356353/710505320736358440/Haru_e_Sora_3.gif",
+               "https://cdn.discordapp.com/attachments/351504904256356353/710505408090865684/Taiga.gif",
+               "https://cdn.discordapp.com/attachments/351504904256356353/710505482447749150/sei_la.gif",
+               "https://cdn.discordapp.com/attachments/351504904256356353/710505552811130952/Sei_la_tbm.gif",
+               "https://cdn.discordapp.com/attachments/351504904256356353/710505797037195319/Inuyasha.gif",
+               "https://cdn.discordapp.com/attachments/351504904256356353/710505866012655667/Haru_e_Sora.gif",
+               "https://cdn.discordapp.com/attachments/351504904256356353/710505935553953792/Haru_e_Sora_2.gif"
+],
+
+"huggif" : ["https://cdn.discordapp.com/attachments/351504904256356353/710579464886681610/Hug_3.gif",
+            "https://cdn.discordapp.com/attachments/351504904256356353/710579478329294890/Hug_4.gif",
+            "https://cdn.discordapp.com/attachments/351504904256356353/710579495345717308/Hug_5.gif",
+            "https://cdn.discordapp.com/attachments/351504904256356353/710579517810409492/Hug_1.gif",
+            "https://cdn.discordapp.com/attachments/351504904256356353/710579519517491220/Hug_2.gif",
+            "https://cdn.discordapp.com/attachments/351504904256356353/710579520306151525/Hug_6.gif"
+],
+
+"slapgif" : ["https://cdn.discordapp.com/attachments/272051172771102730/710885688744083506/tenor_5.gif",
+             "https://cdn.discordapp.com/attachments/272051172771102730/710885692431007744/tenor_6.gif",
+             "https://cdn.discordapp.com/attachments/272051172771102730/710885701033394216/tenor_1.gif",
+             "https://cdn.discordapp.com/attachments/272051172771102730/710885699855056927/tenor.gif",
+             "https://cdn.discordapp.com/attachments/272051172771102730/710885704527511662/tenor_2.gif",
+             "https://cdn.discordapp.com/attachments/272051172771102730/710885707199021197/tenor_3.gif",
+             "https://cdn.discordapp.com/attachments/272051172771102730/710885713801117837/tenor_4.gif"
+],
+
+"patgif" : ["https://cdn.discordapp.com/attachments/351504904256356353/710890807359701123/8763461fd726e1cbfcd076d04c9513fe.gif",
+            "https://cdn.discordapp.com/attachments/351504904256356353/710890808139841546/6b5627aa7e4a97f60c7615f74f3d87d8.gif",
+            "https://cdn.discordapp.com/attachments/351504904256356353/710890808869388378/342e301f019c079662176b57d66f91f9.gif",
+            "https://cdn.discordapp.com/attachments/351504904256356353/710890809347670016/605ff608fcb0da62e40fea48fce10864.gif",
+            "https://cdn.discordapp.com/attachments/351504904256356353/710891057633689640/220babfd5f8b629cc16399497ed9dd96.gif",
+            "https://cdn.discordapp.com/attachments/351504904256356353/710891701203632228/9c301b7a78508e60d0e1e2b9cc1ccddb.gif"
+
+],
+
+"Welcome" : ["https://cdn.discordapp.com/attachments/679120109633273878/715251971245867068/Benvenuto.png",
+             "https://cdn.discordapp.com/attachments/679120109633273878/712751333748375686/BoasVindasMG.jpg"]
+ 
+}

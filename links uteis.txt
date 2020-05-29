@@ -1,0 +1,21 @@
+FAQ discord.js https://github.com/AnIdiotsGuide/discordjs-bot-guide/blob/master/frequently-asked-questions.md
+
+
+    if (talkedRecently.has(message.author.id)) {
+        message.channel.send("Wait 1 minute before getting typing this again. - " + message.author);
+    }
+    else {
+
+
+    }    
+    // Adds the user to the set so that they can't talk for a minute
+    talkedRecently.add(message.author.id);
+    setTimeout(() => {
+      // Removes the user from the set after a minute
+      talkedRecently.delete(message.author.id);
+    }, 5000);
+
+
+https://media.discordapp.net/attachments/679120109633273878/715626051820191744/Regalo.png?width=845&height=475 Regras
+
+https://cdn.discordapp.com/attachments/679120109633273878/715620354038562947/NDAHERE.png NDAHERE
