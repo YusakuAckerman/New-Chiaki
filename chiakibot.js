@@ -39,7 +39,7 @@ client.on('guildMemberAdd', member => {
     let Welcome = botconfig.Welcome;
     let wImage = Math.floor(Math.random() * Welcome.length);
     
-    const channel = member.guild.channels.cache.find(ch => ch.id === '679120109633273878');
+    const channel = member.guild.channels.cache.find(ch => ch.id === '717033854199660599');
         if (!channel) return;
 
     const embed = new Discord.MessageEmbed().setTitle("Bem vindo!!")
@@ -268,12 +268,13 @@ if (cmd.startsWith(`${prefix}sendcoins`)) {
         .setDescription(`Olá ${message.author}! Vejo que está com duvidas sobre meus comandos. \n 
         **COMANDOS PESSOAIS** \n
 
-        .daily - Concede um número aleatório entre 100 e 300 de coins no server. OBS: Possui um Cooldown de 24 Horas. \n 
+        .daily - Concede um número aleatório entre 100 e 300 de Mafia Coins. OBS: Possui um Cooldown de 24 Horas. \n 
         .mycoins - Mostra a quantia de coins que você possui. \n
         .sendcoins - Envia uma quantia X de coins ao usuário mencionado. \n
         .level - Mostra o seu level atual no server. \n 
         .colors - Mostra as cores disponiveis no servidor. \n
-        .coloradd - Adiciona a cor desejada. \n
+        .coloradd - Adiciona a cor desejada, custa 200 Mafia Coins. \n
+        .remove - Remove uma cor e lhe devolve 100 Mafia Coins. \n
 
         **COMANDOS SOCIAIS** \n
 
@@ -336,7 +337,7 @@ if (cmd.startsWith(`${prefix}sendcoins`)) {
         const colorembed = new Discord.MessageEmbed()
         .setColor("#ff0000")
         .setDescription(colors.array().join(" \n  "))
-        .setFooter("Para adicionar uma cor, use .color (nome da cor), verifique Letra Maius e Minus.")
+        .setFooter("Para adicionar uma cor, use .color (nome da cor), custa 200 Mafia Coins.")
 
         message.channel.send(colorembed);
     }
@@ -398,6 +399,9 @@ if (cmd.startsWith(`${prefix}sendcoins`)) {
 
         try {
             await message.member.roles.remove(colors);
+
+            coins[message.author.id].coins = Bal + 100
+
                 const removecolorembed = new Discord.MessageEmbed().setColor("#fcfcfc")
                 .setDescription(`${message.author} Você removeu a cor: ${colortoremove}!`)
 
