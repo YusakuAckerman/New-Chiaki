@@ -189,7 +189,7 @@ let Bal = coins[message.author.id].coins;
 /* inicio dos comandos de server */
 
 if (cmd.startsWith(`${prefix}lock`)) {
-    let lockedroles = message.guild.roles.cache.filter(role => role.name.startsWith("Level"));
+    let lockedroles = message.guild.roles.cache.find(role => role.name === "Level 10");
 
     message.channel.updateOverwrite(lockedroles, {
         SEND_MESSAGES: false
