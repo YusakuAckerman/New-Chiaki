@@ -188,6 +188,15 @@ let Bal = coins[message.author.id].coins;
 
 /* inicio dos comandos de server */
 
+if (cmd.startsWith(`${prefix}lock`)) {
+    let lockedroles = message.guild.roles.cache.filter(role => role.name.startsWith("Level"));
+
+    message.channel.updateOverwrite(lockedroles, {
+        SEND_MESSAGES: false
+    });
+
+}
+
 // Comando de level 
 
 if (cmd.startsWith(`${prefix}mylevel`)) { 
@@ -592,8 +601,8 @@ if (cmd.startsWith(`${prefix}report`)) {
     let reportEmbed = new Discord.MessageEmbed().setTitle("Usuário reportado.")
     .setColor("#fbff00")
     .setThumbnail("https://www.pinclipart.com/picdir/middle/1-12435_ace-attorney-clipart-objection-ace-attorney-objection-meme.png")
-    .addField("Usuário reportado:", `${rUser} ID: ${rUser.id}`)
-    .addField("Reportado por: ", `${message.author} ID: ${message.author.id}`)
+    .addField("Usuário reportado:", `${rUser}`)
+    .addField("Reportado por: ", `${message.author}`)
     .addField("Hora: ", message.createdAt)
     .addField("Motivo: ", rreason);
 
@@ -649,8 +658,8 @@ if (cmd.startsWith(`${prefix}kick`)) {
     let KickEmbed = new Discord.MessageEmbed().setTitle("Usuário kickado.")
     .setDescription("Usuário punido.")
     .setColor("#ff8000")
-    .addField("Usuário kickado: ", `${kUser} ID : ${kUser.id}`)
-    .addField("Game Master: ", `${message.author} ID: ${message.author.id}`)
+    .addField("Usuário kickado: ", `${kUser}`)
+    .addField("Game Master: ", `${message.author}`)
     .addField("Hora: ", message.createdAt)
     .addField("Motivo:", kReason);     
     
@@ -693,8 +702,8 @@ if (cmd.startsWith(`${prefix}kick`)) {
 
     const BanEmbed = new Discord.MessageEmbed().setTitle("Usuário banido")
     .setColor("#ff0000") 
-    .addField("Usuário banido: ", `${bUser} ID : ${bUser.id}`)
-    .addField("Game Master: ", `${message.author} ID: ${message.author.id}`)
+    .addField("Usuário banido: ", `${bUser}`)
+    .addField("Game Master: ", `${message.author}`)
     .addField("Hora: ", message.createdAt)
     .addField("Motivo:", bReason);
     
