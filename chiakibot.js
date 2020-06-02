@@ -188,23 +188,8 @@ let Bal = coins[message.author.id].coins;
 
 /* inicio dos comandos de server */
 
-if (cmd.startsWith(`${prefix}unlock`)) {
-    let lockedroles = message.guild.roles.cache.find(role => role.name === "Level 10");
-
-    message.channel.updateOverwrite(lockedroles, {
-        SEND_MESSAGES: false
-    });
-
-}
-
-if (cmd.startsWith(`${prefix}lock`)) {
 
 
-    message.channel.updateOverwrite(message.channel.guild.roles.everyone, {
-        SEND_MESSAGES: false
-    })
-
-}
 
 // Comando de level 
 
@@ -371,7 +356,9 @@ if (cmd.startsWith(`${prefix}givecoins`)) {
         .warn - Aplica uma warn a um usuário. Se juntar 3, ele será enviado ao julgamento. \n
         .jugde - Manda o membro direto para o julgamento. \n
         .unwarn - Remove as Warns de um usuário. \n
-        .clear - Limpar um número entre 2 e 99 de mensagens no chat. \n 
+        .clear - Limpar um número entre 2 e 99 de mensagens no chat. \n
+        .lock - Locka o chat atual. \n
+        .unlock - Unlocka o chat atual. \n
 
         **COMANDOS DE MODERADOR EXPERIENTE** \n
         __Em desenvolvimento__ \n
@@ -591,6 +578,33 @@ if (cmd.startsWith(`${prefix}givecoins`)) {
 // ---------------------------------------------
 
 /* inicio dos comandos de moderação */
+
+// Lock Chat
+
+if (cmd.startsWith(`${prefix}lock`)) {
+
+    if (!message.member.roles.cache.find(gm => gm.id === '687785376726777935')) 
+    return message.reply("Apenas um game master pode Lockar o chat.");
+
+
+    message.channel.updateOverwrite(message.channel.guild.roles.everyone, {
+        SEND_MESSAGES: false
+    })
+
+}
+
+// Unlock Chat
+
+if (cmd.startsWith(`${prefix}unlock`)) {
+
+    if (!message.member.roles.cache.find(gm => gm.id === '687785376726777935')) 
+        return message.reply("Apenas um game master pode Unlockar o chat.");
+
+    message.channel.updateOverwrite(message.channel.guild.roles.everyone, {
+        SEND_MESSAGES: true
+    })
+
+}
  
 // Comando de report
 
