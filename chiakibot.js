@@ -200,7 +200,7 @@ if (cmd.startsWith(`${prefix}unlock`)) {
 if (cmd.startsWith(`${prefix}lock`)) {
 
 
-    message.guild.roles.everyone.setPermissions({
+    message.channel.updateOverwrite(message.channel.guild.roles.everyone, {
         SEND_MESSAGES: false
     })
 
