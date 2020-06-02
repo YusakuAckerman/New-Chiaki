@@ -198,9 +198,9 @@ if (cmd.startsWith(`${prefix}unlock`)) {
 }
 
 if (cmd.startsWith(`${prefix}lock`)) {
-    let lockedroles = message.guild.roles.cache.filter(role => role.name.startsWith("Level"));
 
-    message.guild.roles.everyone.updateOverwrite({
+
+    message.guild.roles.everyone.setPermissions({
         SEND_MESSAGES: false
     })
 
