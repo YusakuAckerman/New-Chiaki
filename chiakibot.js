@@ -110,9 +110,9 @@ client.on("message", async message => {
         }
     }
 
-  /*   fs.writeFile("./xp.json", JSON.stringify(xp), (err) => {
+        fs.writeFile("./xp.json", JSON.stringify(xp), (err) => {
             if (err) { console.log(err) } 
-        }); */
+        }); 
 
     if (xp[message.author.id].level === 1) {
         message.member.roles.add(lv1role);
