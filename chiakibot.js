@@ -59,7 +59,7 @@ client.on("message", async message => {
 
 // Um extenso script para XP....
 
-    let xpAdd = Math.floor(Math.random() * 7) + 8;
+    let xpAdd = Math.floor(Math.random() * 14) + 15;
 
     let vipxpAdd = Math.floor(Math.random() * 14) + 16;
 
@@ -102,7 +102,7 @@ client.on("message", async message => {
             return;
         let curxp = xp[message.author.id].xp;
         let curlevel = xp[message.author.id].level;
-        let nxtlevel = xp[message.author.id].level * 450;
+        let nxtlevel = xp[message.author.id].level * 400;
         xp[message.author.id].xp = curxp + xpAdd;
         if (nxtlevel <= xp[message.author.id].xp) {
             xp[message.author.id].level = curlevel + 1;
@@ -188,24 +188,30 @@ let Bal = coins[message.author.id].coins;
 
 /* inicio dos comandos de server */
 
- if (cmd.startsWith(`${prefix}vagas`)) {
-    const embezin = new Discord.MessageEmbed().setColor("ffffff")
-    .setImage('https://cdn.discordapp.com/attachments/679120109633273878/715620354038562947/NDAHERE.png');
+// Comando de level 
 
-message.guild.channels.cache.find(rct => rct.id === '713403957204222064').send(embezin);
-message.guild.channels.cache.find(rct => rct.id === '688833745607983310').send(embezin);
-message.guild.channels.cache.find(rct => rct.id === '714531486304436224').send(embezin);
-} 
+if (cmd.startsWith(`${prefix}mylevel`)) { 
+    let nextlevelxp = nxtlevel - curxp;
+
+    const levelembed = new Discord.MessageEmbed()
+    .setColor("#00f0e8")
+    .setDescription(`__Seu level atual é: ${curlevel}__ \n
+    __Para chegar ao próximo level, falta ${nextlevelxp} xp points!__ \n
+    __Xp atual: ${curxp}__`);
+
+    message.reply(levelembed);
+
+}
 
 // Daily coins
 
 if (cmd.startsWith(`${prefix}daily`)) {
 
     if (dailycooldown.has(message.author.id)) {
-        message.channel.send("está em cooldown.");
+        message.channel.send("Você já reinvindicou suas Mafia Coins diárias.");
     } else {
 
-        let dailycoins = Math.floor(Math.random() * 100) + 200;
+        let dailycoins = Math.floor(Math.random() * 200) + 200;
             coins[message.author.id].coins = coins[message.author.id].coins + dailycoins;
                 message.reply(`Você recebeu ${dailycoins} Mafia Coins.`);
    
@@ -256,10 +262,37 @@ if (cmd.startsWith(`${prefix}sendcoins`)) {
 
     let saldo = coins[message.author.id].coins
 
-    message.reply(`Você doou ${args[1]} Mafia coins para ${sendUser}! Seu novo saldo: ${saldo}`);
+    message.reply(`Você doou ${amt} Mafia coins para ${sendUser}! Seu novo saldo: ${saldo}`);
  
 } // fim do comando de sendcoins
 
+if (cmd.startsWith(`${prefix}givecoins`)) {
+
+    let giveUser = message.guild.member(message.mentions.users.first());
+    let amt = args.join(" ").slice(22);
+
+    if (!giveUser) {
+        giveUser = message.author;
+    }
+
+    if (isNaN(amt)) 
+        return message.reply("Um numero, por favor.");
+
+    if (!coins[giveUser.id]) {
+       return message.channel.send("Este usuário não possui uma carteira.");
+    }
+    
+    coins[giveUser.id].coins = coins[giveUser.id].coins + parseInt(amt);
+
+    let saldo = coins[giveUser.id].coins
+
+    message.reply(`Você deu ${amt} Mafia coins para ${sendUser}! novo saldo do usuário: ${saldo}`);
+
+    message.guild.channels.cache
+    .find(cmd => cmd.id === '717103392878493787')
+    .send(`${message.author} deu ${amt} Mafia coins para ${giveUser}`);
+
+}
 
 // Comando de help 
 
@@ -268,7 +301,7 @@ if (cmd.startsWith(`${prefix}sendcoins`)) {
         .setDescription(`Olá ${message.author}! Vejo que está com duvidas sobre meus comandos. \n 
         **COMANDOS PESSOAIS** \n
 
-        .daily - Concede um número aleatório entre 100 e 300 de Mafia Coins. OBS: Possui um Cooldown de 24 Horas. \n 
+        .daily - Concede um número aleatório entre 200 e 400 de Mafia Coins. OBS: Possui um Cooldown de 24 Horas. \n 
         .mycoins - Mostra a quantia de coins que você possui. \n
         .sendcoins - Envia uma quantia X de coins ao usuário mencionado. \n
         .level - Mostra o seu level atual no server. \n 
@@ -397,15 +430,29 @@ if (cmd.startsWith(`${prefix}sendcoins`)) {
         if (!colortoremove) 
             return message.reply("Verifique se digitou o nome da cor corretamente!");
 
+        
+
         try {
+
+            if (!message.member.roles.cache.find(vip => vip.id === '712750471067992116')) {
+
+            
             await message.member.roles.remove(colors);
 
-            coins[message.author.id].coins = Bal + 100
+            coins[message.author.id].coins = Bal + 100;
+            saldo = coins[message.author.id].coins;
 
                 const removecolorembed = new Discord.MessageEmbed().setColor("#fcfcfc")
-                .setDescription(`${message.author} Você removeu a cor: ${colortoremove}!`)
+                .setDescription(`${message.author} Você removeu a cor: ${colortoremove}! \n
+                Seu novo saldo: ${saldo}`);
 
-                message.channel.send(removecolorembed)
+                   message.channel.send(removecolorembed);
+            } else { 
+                await message.member.roles.remove(colors);
+
+                const removecolorembed = new Discord.MessageEmbed().setColor("#fcfcfc")
+                .setDescription(`${message.author} Você removeu a cor ${colortoremove}`);
+            }
         } 
         catch(e) {
             message.channel.send("Deu doidera."); 
@@ -522,9 +569,6 @@ if (cmd.startsWith(`${prefix}sendcoins`)) {
 
 if (cmd.startsWith(`${prefix}report`)) {
 
-    // Canal que irá receber os reports
-    const reportchannel = message.guild.channels.cache.find(ch => ch.id === '707653323695718522');
-
     // Armazenamento de membro em variável
     let rUser = message.guild.member(message.mentions.users.first());
     if (!rUser) 
@@ -544,11 +588,23 @@ if (cmd.startsWith(`${prefix}report`)) {
     .addField("Hora: ", message.createdAt)
     .addField("Motivo: ", rreason);
 
+    if (rUser.roles.cache.find(gm => gm.id === '687785376726777935')) {
+        message.guild.channels.cache
+        .find(founder => founder.id === '717114900715143279')
+        .send(reportEmbed);
+
+        message.delete().catch(O_o=>{});
+    } else {
+
     // Envio da mensagem de report no canal declarado.
-    reportchannel.send(reportEmbed);
+    message.guild.channels.cache
+    .find(ch => ch.id === '707653323695718522')
+    .send(reportEmbed);
 
     // Deleta a mensagem de report. 
     message.delete().catch(O_o=>{});
+
+    }
 }
 
 // Comando de kick
@@ -575,7 +631,8 @@ if (cmd.startsWith(`${prefix}kick`)) {
     // Embed construido para enviar ao chat no qual comando foi utilizado
     let simpleEmbedKick = new Discord.MessageEmbed()
     .setColor("#ff8000")
-    .setDescription(`${kUser} foi kickado do servidor.`);
+    .setDescription(`${kUser} foi kickado do servidor.`)
+    .setImage('https://cdn.discordapp.com/attachments/351504904256356353/715662884457414666/Burrice.gif');
 
     message.reply(simpleEmbedKick);
 
@@ -583,7 +640,6 @@ if (cmd.startsWith(`${prefix}kick`)) {
     let KickEmbed = new Discord.MessageEmbed().setTitle("Usuário kickado.")
     .setDescription("Usuário punido.")
     .setColor("#ff8000")
-    .setImage('https://cdn.discordapp.com/attachments/351504904256356353/715662884457414666/Burrice.gif')
     .addField("Usuário kickado: ", `${kUser} ID : ${kUser.id}`)
     .addField("Game Master: ", `${message.author} ID: ${message.author.id}`)
     .addField("Hora: ", message.createdAt)
