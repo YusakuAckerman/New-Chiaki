@@ -197,6 +197,15 @@ if (cmd.startsWith(`${prefix}lock`)) {
 
 }
 
+if (cmd.startsWith(`${prefix}unlock`)) {
+    let lockedroles = message.guild.roles.cache.filter(role => role.name.startsWith("Level"));
+
+    message.channel.updateOverwrite(lockedroles, {
+        SEND_MESSAGES: true
+    });
+
+}
+
 // Comando de level 
 
 if (cmd.startsWith(`${prefix}mylevel`)) { 
