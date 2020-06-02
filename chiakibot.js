@@ -188,7 +188,7 @@ let Bal = coins[message.author.id].coins;
 
 /* inicio dos comandos de server */
 
-if (cmd.startsWith(`${prefix}lock`)) {
+if (cmd.startsWith(`${prefix}unlock`)) {
     let lockedroles = message.guild.roles.cache.find(role => role.name === "Level 10");
 
     message.channel.updateOverwrite(lockedroles, {
@@ -197,12 +197,12 @@ if (cmd.startsWith(`${prefix}lock`)) {
 
 }
 
-if (cmd.startsWith(`${prefix}unlock`)) {
+if (cmd.startsWith(`${prefix}lock`)) {
     let lockedroles = message.guild.roles.cache.filter(role => role.name.startsWith("Level"));
 
-    message.channel.updateOverwrite(lockedroles, {
-        SEND_MESSAGES: true
-    });
+    message.guild.roles.everyone.updateOverwrite({
+        SEND_MESSAGES: false
+    })
 
 }
 
