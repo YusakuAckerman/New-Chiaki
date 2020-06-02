@@ -811,8 +811,8 @@ if (cmd.startsWith(`${prefix}clear`)) {
     // Embed que será enviado ao chat de Punidos.
     const MuteEmbed = new Discord.MessageEmbed().setTitle("Usuário mutado")
     .setColor("#ff0000") 
-    .addField("Usuário mutado: ", `${mUser} ID : ${mUser.id}`)
-    .addField("Game Master: ", `${message.author} ID: ${message.author.id}`)
+    .addField("Usuário mutado: ", `${mUser}`)
+    .addField("Game Master: ", `${message.author}`)
     .addField("Hora: ", message.createdAt)
     .addField("Tempo mutado: ", `${ms(ms(mutetime))}`);
     
