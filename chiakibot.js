@@ -89,7 +89,7 @@ client.on("message", async message => {
                 return;
         let curxp = xp[message.author.id].xp;
         let curlevel = xp[message.author.id].level;
-        let nxtlevel = xp[message.author.id].level * 450;
+        let nxtlevel = xp[message.author.id].level * 400;
         xp[message.author.id].xp = curxp + vipxpAdd;
         if (nxtlevel <= xp[message.author.id].xp) {
             xp[message.author.id].level = curlevel + 1;
@@ -191,6 +191,11 @@ let Bal = coins[message.author.id].coins;
 // Comando de level 
 
 if (cmd.startsWith(`${prefix}mylevel`)) { 
+
+    let curxp = xp[message.author.id].xp;
+    let curlevel = xp[message.author.id].level;
+    let nxtlevel = xp[message.author.id].level * 400;
+
     let nextlevelxp = nxtlevel - curxp;
 
     const levelembed = new Discord.MessageEmbed()
@@ -286,7 +291,7 @@ if (cmd.startsWith(`${prefix}givecoins`)) {
 
     let saldo = coins[giveUser.id].coins
 
-    message.reply(`Você deu ${amt} Mafia coins para ${sendUser}! novo saldo do usuário: ${saldo}`);
+    message.reply(`Você deu ${amt} Mafia coins para ${giveUser}! novo saldo do usuário: ${saldo}`);
 
     message.guild.channels.cache
     .find(cmd => cmd.id === '717103392878493787')
