@@ -273,6 +273,10 @@ if (cmd.startsWith(`${prefix}sendcoins`)) {
 
 if (cmd.startsWith(`${prefix}givecoins`)) {
 
+    if (!message.member.roles.cache.find(gm => gm.id === '687785376726777935')) {
+        return message.reply("Aham, espertinho.");
+    }
+
     let giveUser = message.guild.member(message.mentions.users.first());
     let amt = args.join(" ").slice(22);
 
