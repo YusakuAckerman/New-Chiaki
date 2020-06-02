@@ -284,7 +284,7 @@ if (cmd.startsWith(`${prefix}givecoins`)) {
     let amt = args.join(" ").slice(22);
 
     if (!giveUser) {
-        giveUser = message.author;
+        message.reply("Mencione quem você quer dar Mafia Coins.");
     }
 
     if (isNaN(amt)) 
@@ -591,6 +591,8 @@ if (cmd.startsWith(`${prefix}lock`)) {
         SEND_MESSAGES: false
     })
 
+    message.channel.send(`${message.author} trancou o chat.`);
+
 }
 
 // Unlock Chat
@@ -603,6 +605,8 @@ if (cmd.startsWith(`${prefix}unlock`)) {
     message.channel.updateOverwrite(message.channel.guild.roles.everyone, {
         SEND_MESSAGES: true
     })
+
+    message.channel.send(`${message.author} destrancou o chat.`);
 
 }
  
