@@ -175,9 +175,9 @@ if (coins[message.author.id].coins === null) {
 
 let Bal = coins[message.author.id].coins;
 
-/* fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
+ fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
     if (err) { console.log(err) } 
-}); */
+}); 
 
 // variáveis para lógica
 
