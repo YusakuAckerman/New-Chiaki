@@ -1,7 +1,6 @@
 // requisitos básicos para funcionalidade/organização do bot. 
 
 const botconfig = require("./botconfig.json");
-const tokenfile = require("./tokenfile.json");
 const Discord = require("discord.js");
 const client = new Discord.Client({disableEveryone: true});
 const ms = require("ms");
