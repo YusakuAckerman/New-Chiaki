@@ -215,13 +215,13 @@ if (cmd.startsWith(`${prefix}mycoins`)) {
     }, (err, coins) => {
         if (!coins) {
 
-            let nocoinembed = new Discord.MessageEmbed().setcolor("#4307b3")
+            let nocoinembed = new Discord.MessageEmbed().setColor("#4307b3")
             .setDescription(`${message.author} Você possui 0 Mafia Coins.`)
 
             message.channel.send(nocoinembed);
         } else { 
 
-            let hascoinembed = new Discord.MessageEmbed().setcolor("#4307b3")
+            let hascoinembed = new Discord.MessageEmbed().setColor("#4307b3")
             .setDescription(`${message.author} Você possui ${coins.coins} Mafia Coins.`)
 
             message.channel.send(hascoinembed);
