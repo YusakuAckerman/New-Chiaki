@@ -6,9 +6,12 @@ const Discord = require("discord.js");
 const client = new Discord.Client({disableEveryone: true});
 const ms = require("ms");
 const fs = require("fs");
-let xp = require("./xp.json");
-let coins = require("./coins.json");
+const mongoose = require("mongoose");
 const dailycooldown = new Set();
+const clainonce = new Set();
+const Money = require("./money.js");
+const Schema = mongoose.Schema
+const firebase = require("firebase");
 
 const unhand = async () => {
     return Promise.reject('Oops!').catch(err => {
@@ -22,6 +25,28 @@ const unhand = async () => {
       console.log(e);
     });
 
+var firebaseConfig = {
+    apiKey: "AIzaSyBV1ZjRQohpt5bNJ8eUruhh_nZshbQYrL8",
+    authDomain: "level-chiaki.firebaseapp.com",
+    databaseURL: "https://level-chiaki.firebaseio.com",
+    projectId: "level-chiaki",
+    storageBucket: "level-chiaki.appspot.com",
+    messagingSenderId: "1079828765444",
+    appId: "1:1079828765444:web:0eb7ef4238177e8ed18e51",
+    measurementId: "G-VZKC18ZGLT"
+  };
+  // Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+
+
+  const database = firebase.database()
+
+
+mongoose.connect("mongodb+srv://YusakuAckerman:YosugaNoSora@coinsystemchiaki-jgqtg.mongodb.net/CoinSystemChiaki?retryWrites=true&w=majority", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => console.log("MongoDB conectada com sucesso"));
+
 // ----------------------------------------------------------------------
 
 // Evento para setar a atividade do bot.
@@ -32,24 +57,7 @@ client.on("ready", async () => {
     client.user.setActivity('use .help em caso de dúvidas!')
 });
 
-// Script para Welcome.
 
-client.on('guildMemberAdd', member => {
-
-    let Welcome = botconfig.Welcome;
-    let wImage = Math.floor(Math.random() * Welcome.length);
-    
-    const channel = member.guild.channels.cache.find(ch => ch.id === '717033854199660599');
-        if (!channel) return;
-
-    const embed = new Discord.MessageEmbed().setTitle("Bem vindo!!")
-    .setColor('DARK_GOLD')
-    .setDescription(`Olá ${member}! Seja bem vindo ao servidor!`)
-    .setImage(Welcome[wImage])
-    .setFooter('Mafia dos Games © 2020.')
-    channel.send(embed);
-
-})
 
 // Comandos com prefixo 
 
@@ -57,127 +65,101 @@ client.on("message", async message => {
     if(message.channel.type === "dm") 
         return;
 
-// Um extenso script para XP....
-
-    let xpAdd = Math.floor(Math.random() * 14) + 15;
-
-    let vipxpAdd = Math.floor(Math.random() * 14) + 16;
-
-    if (!xp[message.author.id]) {
-        xp[message.author.id] = {
-            xp: 0,
-            level: 0
-        };
-    }
-  
-    let lv1role = message.guild.roles.cache.find(lvup => lvup.id === '687793211384791050');
-    let lv5role = message.guild.roles.cache.find(lvup => lvup.id === '687793237913501740');
-    let lv10role = message.guild.roles.cache.find(lvup => lvup.id === '687793282041774138');
-    let lv20role = message.guild.roles.cache.find(lvup => lvup.id === '687793309502275623');
-    let lv30role = message.guild.roles.cache.find(lvup => lvup.id === '687793327818407971');
-    let lv40role = message.guild.roles.cache.find(lvup => lvup.id === '687793350220316690');
-    let lv50role = message.guild.roles.cache.find(lvup => lvup.id === '687793371879702586');
-    let lv60role = message.guild.roles.cache.find(lvup => lvup.id === '687793369774161923');
-    let lv70role = message.guild.roles.cache.find(lvup => lvup.id === '712396992667582534');
-    let lv80role = message.guild.roles.cache.find(lvup => lvup.id === '712397033415245854');
-    let lv85role = message.guild.roles.cache.find(lvup => lvup.id === '712397071470297178');
+        let lv1role = message.guild.roles.cache.find(lvup => lvup.id === '687793211384791050');
+        let lv5role = message.guild.roles.cache.find(lvup => lvup.id === '687793237913501740');
+        let lv10role = message.guild.roles.cache.find(lvup => lvup.id === '687793282041774138');
+        let lv20role = message.guild.roles.cache.find(lvup => lvup.id === '687793309502275623');
+        let lv30role = message.guild.roles.cache.find(lvup => lvup.id === '687793327818407971');
+        let lv40role = message.guild.roles.cache.find(lvup => lvup.id === '687793350220316690');
+        let lv50role = message.guild.roles.cache.find(lvup => lvup.id === '687793371879702586');
+        let lv60role = message.guild.roles.cache.find(lvup => lvup.id === '687793369774161923');
+        let lv70role = message.guild.roles.cache.find(lvup => lvup.id === '712396992667582534');
+        let lv80role = message.guild.roles.cache.find(lvup => lvup.id === '712397033415245854');
+        let lv85role = message.guild.roles.cache.find(lvup => lvup.id === '712397071470297178');
 
 
-    if (message.member.roles.cache.find(vip => vip.id === '712750471067992116') || 
-        message.member.roles.cache.find(boost => boost.id === '712761176379097120')) {
-            if (message.author.bot) 
-                return;
-        let curxp = xp[message.author.id].xp;
-        let curlevel = xp[message.author.id].level;
-        let nxtlevel = xp[message.author.id].level * 400;
-        xp[message.author.id].xp = curxp + vipxpAdd;
-        if (nxtlevel <= xp[message.author.id].xp) {
-            xp[message.author.id].level = curlevel + 1;
-            xp[message.author.id].xp = 0; 
-        }
-    }    
+    global.xp = '';
+    global.nextlevel = '';
+    let xpadd = Math.floor(Math.random() * 15) + 15;
 
-    else {
-        if (message.author.bot) 
-            return;
-        let curxp = xp[message.author.id].xp;
-        let curlevel = xp[message.author.id].level;
-        let nxtlevel = xp[message.author.id].level * 400;
-        xp[message.author.id].xp = curxp + xpAdd;
-        if (nxtlevel <= xp[message.author.id].xp) {
-            xp[message.author.id].level = curlevel + 1;
-            xp[message.author.id].xp = 0; 
-        }
-    }
+    database.ref(`Level/${message.author.id}`)
+        .once('value').then(async function(snap) {
+            if (snap.val() === null ) {
+                if (message.author.bot) 
+                    return
+                database.ref(`Level/${message.author.id}`)
+                    .set({
+                        xp: 0,
+                        level: 0
+                    })
+            } else { 
 
-        fs.writeFile("./xp.json", JSON.stringify(xp), (err) => {
-            if (err) { console.log(err) } 
-        }); 
+                xp = snap.val().xp + xpadd;
+                nextlevel = snap.val().level * 450;
+                database.ref(`Level/${message.author.id}`)
+                    .update({
+                        xp: xp
+                    })
+                if (nextlevel <= xp ) {
+                    nextlevel = snap.val().level + 1
+                    database.ref(`Level/${message.author.id}`)
+                        .update({
+                            xp: 0,
+                            level: nextlevel
+                        })
+                        if (nextlevel === 1) {
+                            message.member.roles.add(lv1role);
+                        }
+                    
+                        if (nextlevel === 5) {
+                            message.member.roles.add(lv5role);
+                        }
+                    
+                        if (nextlevel === 10) {
+                            message.member.roles.add(lv10role);
+                        }
+                    
+                        if (nextlevel === 20) {
+                            message.member.roles.add(lv20role);
+                        }
+                        
+                        if (nextlevel === 30) {
+                            message.member.roles.add(lv30role);
+                        }
+                    
+                        if (nextlevel === 40) {
+                            message.member.roles.add(lv40role);
+                        }
+                    
+                        if (nextlevel === 50) {
+                            message.member.roles.add(lv50role);
+                        }
+                    
+                        if (nextlevel === 60) {
+                            message.member.roles.add(lv60role);
+                        }
+                    
+                        if (nextlevel === 70) {
+                            message.member.roles.add(lv70role);
+                        }
+                    
+                        if (nextlevel === 80) {
+                            message.member.roles.add(lv80role);    
+                        }
+                    
+                        if (nextlevel === 85) {
+                            message.member.roles.add(lv85role);
+                        } 
 
-    if (xp[message.author.id].level === 1) {
-        message.member.roles.add(lv1role);
-    }
 
-    if (xp[message.author.id].level === 5) {
-        message.member.roles.add(lv5role);
-    }
+                    const nxtlevelembed = new Discord.MessageEmbed().setColor("#80adbd")
+                    .setDescription(`Parabéns, você avançou para o **level ${nextlevel}**`)
 
-    if (xp[message.author.id].level === 10) {
-        message.member.roles.add(lv10role);
-    }
-
-    if (xp[message.author.id].level === 20) {
-        message.member.roles.add(lv20role);
-    }
-    
-    if (xp[message.author.id].level === 30) {
-        message.member.roles.add(lv30role);
-    }
-
-    if (xp[message.author.id].level === 40) {
-        message.member.roles.add(lv40role);
-    }
-
-    if (xp[message.author.id].level === 50) {
-        message.member.roles.add(lv50role);
-    }
-
-    if (xp[message.author.id].level === 60) {
-        message.member.roles.add(lv60role);
-    }
-
-    if (xp[message.author.id].level === 70) {
-        message.member.roles.add(lv70role);
-    }
-
-    if (xp[message.author.id].level === 80) {
-        message.member.roles.add(lv80role);    
-    }
-
-    if (xp[message.author.id].level === 85) {
-        message.member.roles.add(lv85role);
-    }
-
-    
-// Coin System Script
-
-if (!coins[message.author.id]) {
-    coins[message.author.id] = {
-        coins: 0
-    };
-}
-
-if (coins[message.author.id].coins === null) {
-    coins[message.author.id] = {
-        coins: 0
-    };
-}
-
-let Bal = coins[message.author.id].coins;
-
- fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
-    if (err) { console.log(err) } 
-}); 
+                
+                    message.author.send(nxtlevelembed);
+                }
+            }
+        })
 
 // variáveis para lógica
 
@@ -188,123 +170,292 @@ let Bal = coins[message.author.id].coins;
 
 /* inicio dos comandos de server */
 
+// Daily Coins
+
+if (cmd.startsWith(`${prefix}daily`)) {
+
+    if (dailycooldown.has(message.author.id)) {
+            message.channel.send("Você já reinvindicou suas Mafia Coins diárias.");
+    } else {
+
+        let mafiacoinsAdd = Math.floor(Math.random() * 200) + 200 
+
+        Money.findOne({
+        userID: message.author.id,
+            
+        }, (err, coins) => {
+            if (!coins) {
+                const newCoins = new Money({
+                    userID: message.author.id,
+                    coins: mafiacoinsAdd
+                    })
+                newCoins.save();
+                message.reply(`Você recebeu ${mafiacoinsAdd} Mafia Coins diárias`);
+
+            } else { 
+                coins.coins = coins.coins + mafiacoinsAdd;
+                    coins.save();
+                        message.reply(`Você recebeu ${mafiacoinsAdd} Mafia Coins diárias`);
+            }
+        })
+              
+    }
+
+dailycooldown.add(message.author.id);
+
+    setTimeout(() => {
+        dailycooldown.delete(message.author.id);
+    }, ms("1d")); // Fim Daily Coins
+}
+// My Coins
+
+if (cmd.startsWith(`${prefix}mycoins`)) {
+    
+    Money.findOne({
+        userID: message.author.id
+    }, (err, coins) => {
+        if (!coins) {
+
+            let nocoinembed = new Discord.MessageEmbed().color("#4307b3")
+            .setDescription(`${message.author} Você possui 0 Mafia Coins.`)
+
+            message.channel.send(nocoinembed);
+        } else { 
+
+            let hascoinembed = new Discord.MessageEmbed().color("#4307b3")
+            .setDescription(`${message.author} Você possui ${coins.coins} Mafia Coins.`)
+
+            message.channel.send(hascoinembed);
+
+        }
+    }) 
+} // Fim My Coins
+
+// Comando de sendcoins
+
+if (cmd.startsWith(`${prefix}sendcoins`)) {
+
+    let sendUser = message.guild.member(message.mentions.users.first());
+    let amt = parseInt(args[1]);
+
+    if (sendUser.id === message.author.id) {
+        return message.reply("Haha, nice try.");
+    }
+    
+    if (!sendUser) {
+        return message.reply("Mencione quem você deseja enviar as coins");
+    }
+
+    if (!amt) {
+        return message.reply("Diga a quantidade, por favor. E que de preferência seja um número.")
+    }
+    
+    if (isNaN(args[1])) {
+        return message.reply("Aham, engraçadinho.");
+    }
+
+    Money.findOne({
+        userID: message.author.id
+    }, (err, coins) => {
+        if (coins.coins < amt || !coins) {
+            return message.reply("Você não possui coins para realizar a transação.");
+        } else {
+            coins.coins = coins.coins - amt;
+            coins.save();
+        }
+
+        Money.findOne({
+            userID: sendUser.id 
+        }, (err, coins) => {
+            if (!coins) {
+                const newCoins = new Money({
+                    userID: sendUser.id,
+                    coins: amt
+                })
+                newCoins.save();
+                    message.reply(`Você deu ${amt} das suas coins para ${sendUser}`);
+            } else { 
+                coins.coins = coins.coins + amt;
+                    coins.save();
+                        message.reply(`Você deu ${amt} das suas coins para ${sendUser}`);
+            }
+        })
+    })
+
+
+
+} // Fim Send Coins
+
+if (cmd.startsWith(`${prefix}givecoins`)) {
+
+    //Check de roles
+    if (!message.member.roles.cache.find(fnd => fnd.id === '679122758596296704')
+    && !message.member.roles.cache.find(exp => exp.id === '712381429761441933')
+    && !message.member.roles.cache.find(snr => snr.id === '712741074019287061')) 
+            return message.reply("Apenas Game Masters experientes possuem permissão para usar este comando."); 
+
+
+    let sendUser = message.guild.member(message.mentions.users.first());
+    let amt = parseInt(args[1])
+
+    if (!sendUser) {
+        return message.reply("Mencione quem você quer que receba a doação de coins.");
+    }
+
+    if (isNaN(amt) || amt === 0) {
+        return message.reply("Tá bom, engraçadinho.");
+    }
+
+    Money.findOne({
+        userID: sendUser.id
+    }, (err, coins) => {
+        if (!coins) {
+            const newCoins = new Money({
+                userID: sendUser.id,
+                coins: amt
+            })
+            newCoins.save();
+        } else {
+            coins.coins = coins.coins + amt;
+            coins.save();
+        }
+    })
+
+    const cmdembed = new Discord.MessageEmbed().setColor("fcfcfc")
+    .setDescription(`${message.author} deu ${amt} para ${sendUser}`);
+
+    message.guild.channels.cache
+    .find(cmd => cmd.id === '688172961168883747')
+    .send(cmdembed);
+
+}
+
+ // Comando para ver as cores do servidor.
+
+ if (cmd.startsWith(`${prefix}colors`)) {
+    let colors = message.guild.roles.cache.filter(role => role.name.startsWith("Color: "));
+
+    const colorembed = new Discord.MessageEmbed()
+    .setColor("#ff0000")
+    .setDescription(colors.array().join(" \n  "))
+    .setFooter("Para adicionar uma cor, use .color (nome da cor), custa 200 Mafia Coins.")
+
+    message.channel.send(colorembed);
+}
+
+// Comando para colocar cores
+
+if (cmd.startsWith(`${prefix}coloradd`)) {
+    let colors = message.guild.roles.cache.filter(role => role.name.startsWith("Color: "));
+    let str = args.join(" ");
+    let colortoadd = colors.find(role => role.name.slice(7).toLowerCase() === str.toLowerCase())
+
+    if (!colortoadd) 
+        return message.reply("Verifique se digitou o nome da cor corretamente!");
+
+    try {
+        
+        if (message.member.roles.cache.find(vip => vip.id === '712750471067992116')){
+            message.member.roles.remove(colors);
+            
+                message.member.roles.add(colortoadd);
+
+            const sendcolorembed = new Discord.MessageEmbed().setColor("#fcfcfc")
+            .setDescription(`${message.author} Você trocou de cor! \n
+            Nova cor: ${colortoadd}!`)
+
+            message.channel.send(sendcolorembed)
+        } else {
+
+            Money.findOne({
+                userID: message.author.id
+            }, (err, coins) => {
+
+                if (coins.coins < 200) {
+                    return message.reply("Você não tem dinheiro para trocar de cor!");
+                }
+                 else {
+                    message.member.roles.remove(colors);
+                        message.member.roles.add(colortoadd);
+                            coins.coins = coins.coins - 200;
+                    coins.save();
+
+                    const sendcolorembed = new Discord.MessageEmbed().setColor("#fcfcfc")
+                    .setDescription(`${message.author} Você trocou de cor por 200 Mafia coins! \n
+                    Nova cor: ${colortoadd} / Atual saldo de Coins: ${coins.coins}!`);
+
+                    message.channel.send(sendcolorembed);
+                }
+            })
+        }
+    } 
+    catch(e) {
+        message.channel.send("Deu doidera."); 
+    }
+
+}
+
+    // Comando para remoção de cor.
+
+if (cmd.startsWith(`${prefix}removecolor`)) {
+        let colors = message.guild.roles.cache.filter(role => role.name.startsWith("Color: "));
+        let str = args.join(" ");
+        let colortoremove = colors.find(role => role.name.slice(7).toLowerCase() === str.toLowerCase())
+
+        if (!colortoremove) 
+            return message.reply("Verifique se digitou o nome da cor corretamente!");
+
+        try {
+
+            if (!message.member.roles.cache.find(vip => vip.id === '712750471067992116')) {
+
+            message.member.roles.remove(colors);
+
+            Money.findOne({
+                userID: message.author.id,
+            }, (err, coins) => {
+                if (!coins) {
+
+                    const newCoins = new Money({
+                        userID: message.author.id,
+                        coins: 100
+                    })
+                    newCoins.save();
+
+                    const removecolorembed = new Discord.MessageEmbed().setColor("#fcfcfc")
+                    .setDescription(`${message.author} Você removeu a cor: ${colortoremove}! \n
+                    Seu novo saldo: ${coins.coins}`);
+
+                    message.channel.send(removecolorembed);
+                } else {
+
+                    coins.coins = coins.coins + 100;
+                    coins.save();
+
+                    const removecolorembed = new Discord.MessageEmbed().setColor("#fcfcfc")
+                    .setDescription(`${message.author} Você removeu a cor: ${colortoremove}! \n
+                    Seu novo saldo: ${coins.coins}`);
+
+                    message.channel.send(removecolorembed);
+                }
+            })
+            } else { 
+                await message.member.roles.remove(colors);
+
+                const removecolorembed = new Discord.MessageEmbed().setColor("#fcfcfc")
+                .setDescription(`${message.author} Você removeu a cor ${colortoremove}`);
+            }
+        } 
+        catch(e) {
+            message.channel.send("Deu doidera."); 
+        }
+}
 
 
 
 // Comando de level 
 
-if (cmd.startsWith(`${prefix}mylevel`)) { 
 
-    let curxp = xp[message.author.id].xp;
-    let curlevel = xp[message.author.id].level;
-    let nxtlevel = xp[message.author.id].level * 400;
-
-    let nextlevelxp = nxtlevel - curxp;
-
-    const levelembed = new Discord.MessageEmbed()
-    .setColor("#00f0e8")
-    .setDescription(`__Seu level atual é: ${curlevel}__ \n
-    __Para chegar ao próximo level, falta ${nextlevelxp} xp points!__ \n
-    __Xp atual: ${curxp}__`);
-
-    message.reply(levelembed);
-
-}
-
-// Daily coins
-
-if (cmd.startsWith(`${prefix}daily`)) {
-
-    if (dailycooldown.has(message.author.id)) {
-        message.channel.send("Você já reinvindicou suas Mafia Coins diárias.");
-    } else {
-
-        let dailycoins = Math.floor(Math.random() * 200) + 200;
-            coins[message.author.id].coins = coins[message.author.id].coins + dailycoins;
-                message.reply(`Você recebeu ${dailycoins} Mafia Coins.`);
-   
-    }
-
-    
-    dailycooldown.add(message.author.id);
-    setTimeout(() => {
-      dailycooldown.delete(message.author.id);
-    }, ms("1d"));
-
-} // Fim Daily coins
-
-// Comando para ver suas coins
-
-if (cmd.startsWith(`${prefix}mycoins`)) {
-    let saldo = coins[message.author.id].coins 
-
-    message.channel.send(`Você possui ${saldo} Mafia Coins!`);
-} // Fim Mycoins
-
-// Comando de sendcoins
-
-if (cmd.startsWith(`${prefix}sendcoins`)) { 
-    if (coins[message.author.id].coins < 1) 
-        return message.reply("Você está sem Mafia Coins.");
-
-    let sendUser = message.guild.member(message.mentions.users.first());
-    let amt = args.join(" ").slice(22);
-
-    if (isNaN(amt)) 
-        return message.reply("Um numero, por favor.");
-
-    if (sendUser.id === message.author.id) 
-        return message.reply("Haha, boa tentativa.");
-
-    if (!coins[sendUser.id]) {
-       return message.channel.send("Este usuário não possui uma carteira.");
-    }
-
-
-    if (coins[message.author.id].coins < amt) 
-        return message.reply("Você não possui essa quantia de Mafia Coins.");
-    
-    coins[message.author.id].coins = coins[message.author.id].coins - parseInt(amt);
-    
-    coins[sendUser.id].coins = coins[sendUser.id].coins + parseInt(amt);
-
-    let saldo = coins[message.author.id].coins
-
-    message.reply(`Você doou ${amt} Mafia coins para ${sendUser}! Seu novo saldo: ${saldo}`);
- 
-} // fim do comando de sendcoins
-
-if (cmd.startsWith(`${prefix}givecoins`)) {
-
-    if (!message.member.roles.cache.find(gm => gm.id === '687785376726777935')) {
-        return message.reply("Aham, espertinho.");
-    }
-
-    let giveUser = message.guild.member(message.mentions.users.first());
-    let amt = args.join(" ").slice(22);
-
-    if (!giveUser) {
-        message.reply("Mencione quem você quer dar Mafia Coins.");
-    }
-
-    if (isNaN(amt)) 
-        return message.reply("Um numero, por favor.");
-
-    if (!coins[giveUser.id]) {
-       return message.channel.send("Este usuário não possui uma carteira.");
-    }
-    
-    coins[giveUser.id].coins = coins[giveUser.id].coins + parseInt(amt);
-
-    let saldo = coins[giveUser.id].coins
-
-    message.reply(`Você deu ${amt} Mafia coins para ${giveUser}! novo saldo do usuário: ${saldo}`);
-
-    message.guild.channels.cache
-    .find(cmd => cmd.id === '717103392878493787')
-    .send(`${message.author} deu ${amt} Mafia coins para ${giveUser}`);
-
-}
 
 // Comando de help 
 
@@ -316,13 +467,14 @@ if (cmd.startsWith(`${prefix}givecoins`)) {
         .daily - Concede um número aleatório entre 200 e 400 de Mafia Coins. OBS: Possui um Cooldown de 24 Horas. \n 
         .mycoins - Mostra a quantia de coins que você possui. \n
         .sendcoins - Envia uma quantia X de coins ao usuário mencionado. \n
-        .level - Mostra o seu level atual no server. \n 
+        .mylevel - Mostra o seu level atual no server. \n 
         .colors - Mostra as cores disponiveis no servidor. \n
         .coloradd - Adiciona a cor desejada, custa 200 Mafia Coins. \n
-        .remove - Remove uma cor e lhe devolve 100 Mafia Coins. \n
+        .removecolor - Remove uma cor desejada e lhe devolve 100 Mafia Coins. \n
 
         **COMANDOS SOCIAIS** \n
 
+        .avatar - Mostra o seu avatar, ou caso você marque alguém, mostra o da pessoa marcada. \n
         .hug - Abraça um usuário usando um GIF. \n
         .kiss - Beija um usuário usando um GIF. \n
         .slap - Dá um tapa em um usuário usando um GIF. \n
@@ -354,16 +506,15 @@ if (cmd.startsWith(`${prefix}givecoins`)) {
         OBS: Caso não especifique o tempo, por padrão será 15 Minutos. \n
         .unmute - Desmuta o usuário mencionado. \n
         .warn - Aplica uma warn a um usuário. Se juntar 3, ele será enviado ao julgamento. \n
-        .jugde - Manda o membro direto para o julgamento. \n
+        .judge - Manda o membro direto para o julgamento. \n
         .unwarn - Remove as Warns de um usuário. \n
         .clear - Limpar um número entre 2 e 99 de mensagens no chat. \n
         .lock - Locka o chat atual. \n
         .unlock - Unlocka o chat atual. \n
 
-        **COMANDOS DE MODERADOR EXPERIENTE** \n
-        __Em desenvolvimento__ \n
+        **COMANDOS DE MODERADOR EXPERIENTE+** \n
 
-        .levelset - Coloca o level desejado a um membro. \n
+
         .givecoins - Dá moedas ao usuário. \n
         **OBS**: O Uso indevido deste comando poderá resultar em perda do Game Master! \n
         
@@ -376,136 +527,38 @@ if (cmd.startsWith(`${prefix}givecoins`)) {
     } // Fim .gamemaster
 
 
-    // Comando para ver as cores do servidor.
-
-    if (cmd.startsWith(`${prefix}colors`)) {
-        let colors = message.guild.roles.cache.filter(role => role.name.startsWith("Color: "));
-
-        const colorembed = new Discord.MessageEmbed()
-        .setColor("#ff0000")
-        .setDescription(colors.array().join(" \n  "))
-        .setFooter("Para adicionar uma cor, use .color (nome da cor), custa 200 Mafia Coins.")
-
-        message.channel.send(colorembed);
-    }
-
-    // Comando para colocar cores
-
-    if (cmd.startsWith(`${prefix}coloradd`)) {
-        let colors = message.guild.roles.cache.filter(role => role.name.startsWith("Color: "));
-        let str = args.join(" ");
-        let colortoadd = colors.find(role => role.name.slice(7).toLowerCase() === str.toLowerCase())
-
-        if (!colortoadd) 
-            return message.reply("Verifique se digitou o nome da cor corretamente!");
-
-        try {
-            
-            if (message.member.roles.cache.find(vip => vip.id === '712750471067992116')){
-                await message.member.roles.remove(colors);
-
-                message.member.roles.add(colortoadd);
-                const sendcolorembed = new Discord.MessageEmbed().setColor("#fcfcfc")
-                .setDescription(`${message.author} Você trocou de cor! \n
-                Nova cor: ${colortoadd}!`)
-
-                message.channel.send(sendcolorembed)
-            } else {
-                if (Bal < 200) 
-                    return message.reply("Você não tem dinheiro para trocar de cor!");
-                
-                    await message.member.roles.remove(colors);
-
-                    message.member.roles.add(colortoadd);
-
-                    coins[message.author.id].coins = Bal - 200;
-
-                    let saldo = Bal - 200
-                    const sendcolorembed = new Discord.MessageEmbed().setColor("#fcfcfc")
-                    .setDescription(`${message.author} Você trocou de cor por 200 Mafia coins! \n
-                    Nova cor: ${colortoadd} / Atual saldo de Coins: ${saldo}!`)
-
-                    message.channel.send(sendcolorembed);
-            }
-        } 
-        catch(e) {
-            message.channel.send("Deu doidera."); 
-        }
-
-    }
-
-    // Comando para remoção de cor.
-
-    if (cmd.startsWith(`${prefix}removecolor`)) {
-        let colors = message.guild.roles.cache.filter(role => role.name.startsWith("#"));
-        let str = args.join(" ");
-        let colortoremove = colors.find(role => role.name.slice(1).toLowerCase() === str.toLowerCase())
-
-        if (!colortoremove) 
-            return message.reply("Verifique se digitou o nome da cor corretamente!");
-
-        
-
-        try {
-
-            if (!message.member.roles.cache.find(vip => vip.id === '712750471067992116')) {
-
-            
-            await message.member.roles.remove(colors);
-
-            coins[message.author.id].coins = Bal + 100;
-            saldo = coins[message.author.id].coins;
-
-                const removecolorembed = new Discord.MessageEmbed().setColor("#fcfcfc")
-                .setDescription(`${message.author} Você removeu a cor: ${colortoremove}! \n
-                Seu novo saldo: ${saldo}`);
-
-                   message.channel.send(removecolorembed);
-            } else { 
-                await message.member.roles.remove(colors);
-
-                const removecolorembed = new Discord.MessageEmbed().setColor("#fcfcfc")
-                .setDescription(`${message.author} Você removeu a cor ${colortoremove}`);
-            }
-        } 
-        catch(e) {
-            message.channel.send("Deu doidera."); 
-        }
-    }
-
-
     // Comando de sugestão
 
-    if (cmd.startsWith(`${prefix}sugestion`)) {
-        let sugestão = args.join(" ");
-        let sugestionchannel = message.guild.channels.cache.find(sug => sug.id === '713403941433376839'); 
-        if (!sugestão) 
-            return message.reply("Digite a sugestão, algo útil, de preferencia.")
-        
-        message.delete(message);
+ if (cmd.startsWith(`${prefix}sugestion`)) {
+    let sugestão = args.join(" ");
+    let sugestionchannel = message.guild.channels.cache.find(sug => sug.id === '713403941433376839'); 
+    if (!sugestão) 
+        return message.reply("Digite a sugestão, algo útil, de preferencia.")
+    
+    message.delete(message);
 
-        const sugestionembed = new Discord.MessageEmbed().setColor("#21b9ff")
-        .setDescription(`Sugestão de: ${message.author} \n 
-        **${args}**`);
+    const sugestionembed = new Discord.MessageEmbed().setColor("#21b9ff")
+    .setDescription(`Sugestão de: ${message.author} \n 
+    **${sugestão}**`);
 
-        sugestionchannel.send(sugestionembed).then(sugestionembed => {
-            sugestionembed.react('✅')
-            sugestionembed.react('❎')
-        
-        });
-    }
+    sugestionchannel.send(sugestionembed).then(sugestionembed => {
+        sugestionembed.react('✅')
+        sugestionembed.react('❎')
+    
+    });
+}
 
     if (cmd.startsWith(`${prefix}bugreport`)) {
-        let sugestão = args.join(" ");
+        let bug = args.join(" ");
         let bugchannel = message.guild.channels.cache.find(sug => sug.id === '715658645622227055'); 
-        if (!sugestão) 
+        if (!bug) 
             return message.reply("Insira o Bug encontrado....")
         
         message.delete(message);
 
         const sugestionembed = new Discord.MessageEmbed().setColor("#21b9ff")
         .setDescription(`Bug encontrado por: ${message.author} \n 
-        **${args}**`);
+        **${bug}**`);
 
         bugchannel.send(sugestionembed).then(sugestionembed => {
             sugestionembed.react('✅')
@@ -581,17 +634,19 @@ if (cmd.startsWith(`${prefix}givecoins`)) {
 
 // Lock Chat
 
-if (cmd.startsWith(`${prefix}lock`)) {
+
+ if (cmd.startsWith(`${prefix}lock`)) {
 
     if (!message.member.roles.cache.find(gm => gm.id === '687785376726777935')) 
-    return message.reply("Apenas um game master pode Lockar o chat.");
+        return message.reply("Apenas um game master pode Lockar o chat.");
 
 
     message.channel.updateOverwrite(message.channel.guild.roles.everyone, {
         SEND_MESSAGES: false
     })
 
-    message.channel.send(`${message.author} trancou o chat.`);
+    const lockembed = new Discord.MessageEmbed().setDescription(`${message.author} trancou o chat.`);
+        message.channel.send(lockembed);
 
 }
 
@@ -606,7 +661,8 @@ if (cmd.startsWith(`${prefix}unlock`)) {
         SEND_MESSAGES: true
     })
 
-    message.channel.send(`${message.author} destrancou o chat.`);
+    const unlockembed = new Discord.MessageEmbed().setDescription(`${message.author} destrancou o chat.`);
+        message.channel.send(unlockembed);
 
 }
  
@@ -744,7 +800,9 @@ if (cmd.startsWith(`${prefix}kick`)) {
     // Comando de Clear
 
 if (cmd.startsWith(`${prefix}clear`)) {
-    message.delete(message);
+
+    if (!message.member.hasPermission("MANAGE_MESSAGES")) 
+        return message.reply("Apenas um Game master pode apagar mensagens."); 
 
     const tutoclearembed = new Discord.MessageEmbed()
     .setColor("#5a0091")
@@ -777,7 +835,7 @@ if (cmd.startsWith(`${prefix}clear`)) {
 
     if (cmd.startsWith(`${prefix}mute`)) {
         // Check se o membro tem permissão de usar o comando.
-        if (!message.member.hasPermission("MANAGE_MESSAGES")) 
+        if (!message.member.hasPermission("MUTE_MEMBERS"    )) 
             return message.reply("Apenas um Game Master pode mutar outros membros!");    
     
         // Armazenamento de membro a ser mutado e checks básicos. 
@@ -806,8 +864,6 @@ if (cmd.startsWith(`${prefix}clear`)) {
     // Adiciona a role de mute.
     mUser.roles.add(muterole);
 
-    /* Mensagem enviada no chat onde o comando foi utilizado, mostrando o membro que foi mutado 
-    e seu tempo de mute */
     const SimpleMuteEmbed = new Discord.MessageEmbed().setColor("#0a0a0a")
     .setDescription(`${mUser} foi mutado por ${ms(ms(mutetime))}`);
     message.channel.send(SimpleMuteEmbed);
@@ -1190,7 +1246,7 @@ if (cmd.startsWith(`${prefix}slap`)) {
         }    
 }
 
-    
+
 });
 
 client.login(process.env.token);

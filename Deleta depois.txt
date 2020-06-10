@@ -1,0 +1,150 @@
+
+
+
+// Script para Welcome.
+
+client.on('guildMemberAdd', member => {
+
+    let Welcome = botconfig.Welcome;
+    let wImage = Math.floor(Math.random() * Welcome.length);
+    
+    const channel = member.guild.channels.cache.find(ch => ch.id === '717033854199660599');
+        if (!channel) return;
+
+    const embed = new Discord.MessageEmbed().setTitle("Bem vindo!!")
+    .setColor('DARK_GOLD')
+    .setDescription(`Olá ${member}! Seja bem vindo ao servidor!`)
+    .setImage(Welcome[wImage])
+    .setFooter('Mafia dos Games © 2020.')
+    channel.send(embed);
+
+})
+
+
+
+
+
+
+
+
+// Um extenso script para XP....
+
+/* AQUI   let xpAdd = Math.floor(Math.random() * 14) + 15;
+
+    let vipxpAdd = Math.floor(Math.random() * 14) + 16;
+
+    if (!xp[message.author.id]) {
+        xp[message.author.id] = {
+            xp: 0,
+            level: 0
+        };
+    }
+  
+    let lv1role = message.guild.roles.cache.find(lvup => lvup.id === '687793211384791050');
+    let lv5role = message.guild.roles.cache.find(lvup => lvup.id === '687793237913501740');
+    let lv10role = message.guild.roles.cache.find(lvup => lvup.id === '687793282041774138');
+    let lv20role = message.guild.roles.cache.find(lvup => lvup.id === '687793309502275623');
+    let lv30role = message.guild.roles.cache.find(lvup => lvup.id === '687793327818407971');
+    let lv40role = message.guild.roles.cache.find(lvup => lvup.id === '687793350220316690');
+    let lv50role = message.guild.roles.cache.find(lvup => lvup.id === '687793371879702586');
+    let lv60role = message.guild.roles.cache.find(lvup => lvup.id === '687793369774161923');
+    let lv70role = message.guild.roles.cache.find(lvup => lvup.id === '712396992667582534');
+    let lv80role = message.guild.roles.cache.find(lvup => lvup.id === '712397033415245854');
+    let lv85role = message.guild.roles.cache.find(lvup => lvup.id === '712397071470297178');
+
+
+    if (message.member.roles.cache.find(vip => vip.id === '712750471067992116') || 
+        message.member.roles.cache.find(boost => boost.id === '712761176379097120')) {
+            if (message.author.bot) 
+                return;
+        let curxp = xp[message.author.id].xp;
+        let curlevel = xp[message.author.id].level;
+        let nxtlevel = xp[message.author.id].level * 400;
+        xp[message.author.id].xp = curxp + vipxpAdd;
+        if (nxtlevel <= xp[message.author.id].xp) {
+            xp[message.author.id].level = curlevel + 1;
+            xp[message.author.id].xp = 0; 
+        }
+    }    
+
+    else {
+        if (message.author.bot) 
+            return;
+        let curxp = xp[message.author.id].xp;
+        let curlevel = xp[message.author.id].level;
+        let nxtlevel = xp[message.author.id].level * 400;
+        xp[message.author.id].xp = curxp + xpAdd;
+        if (nxtlevel <= xp[message.author.id].xp) {
+            xp[message.author.id].level = curlevel + 1;
+            xp[message.author.id].xp = 0; 
+        }
+    }
+
+        fs.writeFile("./xp.json", JSON.stringify(xp), (err) => {
+            if (err) { console.log(err) } 
+        }); 
+
+    if (xp[message.author.id].level === 1) {
+        message.member.roles.add(lv1role);
+    }
+
+    if (xp[message.author.id].level === 5) {
+        message.member.roles.add(lv5role);
+    }
+
+    if (xp[message.author.id].level === 10) {
+        message.member.roles.add(lv10role);
+    }
+
+    if (xp[message.author.id].level === 20) {
+        message.member.roles.add(lv20role);
+    }
+    
+    if (xp[message.author.id].level === 30) {
+        message.member.roles.add(lv30role);
+    }
+
+    if (xp[message.author.id].level === 40) {
+        message.member.roles.add(lv40role);
+    }
+
+    if (xp[message.author.id].level === 50) {
+        message.member.roles.add(lv50role);
+    }
+
+    if (xp[message.author.id].level === 60) {
+        message.member.roles.add(lv60role);
+    }
+
+    if (xp[message.author.id].level === 70) {
+        message.member.roles.add(lv70role);
+    }
+
+    if (xp[message.author.id].level === 80) {
+        message.member.roles.add(lv80role);    
+    }
+
+    if (xp[message.author.id].level === 85) {
+        message.member.roles.add(lv85role);
+    }
+
+    
+// Coin System Script
+
+if (!coins[message.author.id]) {
+    coins[message.author.id] = {
+        coins: 0
+    };
+}
+
+if (coins[message.author.id].coins === null) {
+    coins[message.author.id] = {
+        coins: 0
+    };
+}
+
+let Bal = coins[message.author.id].coins;
+
+ fs.writeFile("./coins.json", JSON.stringify(coins), (err) => {
+    if (err) { console.log(err) } 
+}); AQUI */ 
