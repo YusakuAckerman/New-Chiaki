@@ -84,8 +84,6 @@ client.on("message", async message => {
     database.ref(`Level/${message.author.id}`)
         .once('value').then(async function(snap) {
             if (snap.val() === null ) {
-                if (message.author.bot) 
-                    return
                 database.ref(`Level/${message.author.id}`)
                     .set({
                         xp: 0,
@@ -106,6 +104,9 @@ client.on("message", async message => {
                             xp: 0,
                             level: nextlevel
                         })
+                    if (message.author.bot) 
+                        return
+
                         if (nextlevel === 1) {
                             message.member.roles.add(lv1role);
                         }
@@ -154,8 +155,12 @@ client.on("message", async message => {
                     const nxtlevelembed = new Discord.MessageEmbed().setColor("#80adbd")
                     .setDescription(`Parabéns, você avançou para o **level ${nextlevel}**`)
 
-                
+                try {
                     message.author.send(nxtlevelembed);
+                } catch(e) {
+                    console.log(`não pude enviar mensagem no pv para ${message.author}`);
+                }
+                    
                 }
             }
         })
@@ -168,6 +173,103 @@ client.on("message", async message => {
     let args = messageArray.slice(1);
 
 /* inicio dos comandos de server */
+
+// Bonus [apagar 12/06]
+
+if (cmd.startsWith(`${prefix}clain`)) {
+
+    if (clainonce.has(message.author.id)) {
+        message.reply("Você já reivindicou seu bonus pela manutenção...");
+    } else {
+    
+        Money.findOne({
+            userID: message.author.id
+        }, (err, coins) => {
+            if (!coins) {
+                const newCoins = new Money({
+                    userID: message.author.id,
+                    coins: 5000
+                })
+                newCoins.save();
+            } else {
+                coins.coins = coins.coins + 5000;
+                coins.save();
+            }
+        });
+
+        database.ref(`Level/${message.author.id}`)
+            .update({
+                xp: 0,
+                level: 15
+            });
+
+            const bonusembed = new Discord.MessageEmbed().setColor("#0c244a")
+            .setDescription(`Você reinvindicou seu bônus devido a manutenção: \n
+            5000 Mafia Coins. \n
+            Passe direto para o level 15 \n`);
+
+            message.reply(bonusembed);
+    }
+
+    clainonce.add(message.author.id);
+}
+
+if (cmd.startsWith(`${prefix}mylevel`)) {
+
+    database.ref(`Level/${message.author.id}`)
+        .once("value").then(async function(snap) {
+            currxp = snap.val().xp;
+            currlevel = snap.val().level;
+            tonext = snap.val().level * 450;
+            diff = tonext - currxp; 
+
+            const mylevelembed = new Discord.MessageEmbed().setTitle("Nivel de respeito:")
+            .setColor("#06ced1")
+            .setDescription(`Sua XP atual é: **${currxp}** \n
+            XP necessária para o próximo level: **${tonext}** \n
+            Seu level atual é: **${currlevel}** \n`)
+            .setFooter(`Xp para o próximo level: ${diff}`);
+
+            message.channel.send(mylevelembed);
+        });
+
+}
+
+// Set level 
+
+if (cmd.startsWith(`${prefix}setlevel`)) {
+
+    if (!message.member.roles.cache.find(fnd => fnd.id === '679122758596296704')
+    && !message.member.roles.cache.find(exp => exp.id === '712381429761441933')
+    && !message.member.roles.cache.find(snr => snr.id === '712741074019287061')) 
+            return message.reply("Apenas Game Masters experientes possuem permissão para usar este comando.");
+
+    
+
+    let userLevel = message.guild.member(message.mentions.users.first());
+    let newLevel = parseInt(args[1]);
+
+    if (userLevel.roles.cache.find(gm => gm.id === '687785376726777935')) 
+        return message.reply("Você não pode alterar o level de outro Game Master! Isso inclui o seu, espertinho.")
+    
+    if (isNaN(newLevel)) {
+        return message.reply("Um número, por favor.");
+    }
+
+    database.ref(`Level/${userLevel.id}`)
+        .update({
+            xp: 0,
+            level: newLevel
+        });
+
+        const cmdembed = new Discord.MessageEmbed().setColor("fcfcfc")
+        .setDescription(`${message.author} setou o nivel de ${sendUser} para ${newLevel}`);
+    
+        message.guild.channels.cache
+        .find(cmd => cmd.id === '688172961168883747')
+        .send(cmdembed);
+
+}
 
 // Daily Coins
 
@@ -317,15 +419,67 @@ if (cmd.startsWith(`${prefix}givecoins`)) {
         } else {
             coins.coins = coins.coins + amt;
             coins.save();
+
+            const cmdembed = new Discord.MessageEmbed().setColor("fcfcfc")
+            .setDescription(`${message.author} deu ${amt} Mafia Coins para ${sendUser}`);
+        
+            message.guild.channels.cache
+            .find(cmd => cmd.id === '688172961168883747')
+            .send(cmdembed);
         }
     })
 
-    const cmdembed = new Discord.MessageEmbed().setColor("fcfcfc")
-    .setDescription(`${message.author} deu ${amt} para ${sendUser}`);
 
-    message.guild.channels.cache
-    .find(cmd => cmd.id === '688172961168883747')
-    .send(cmdembed);
+
+}
+
+// Debt Coins
+
+if (cmd.startsWith(`${prefix}debtcoins`)) {
+
+    //Check de roles
+    if (!message.member.roles.cache.find(fnd => fnd.id === '679122758596296704')
+    && !message.member.roles.cache.find(exp => exp.id === '712381429761441933')
+    && !message.member.roles.cache.find(snr => snr.id === '712741074019287061')) 
+            return message.reply("Apenas Game Masters experientes possuem permissão para usar este comando."); 
+
+
+    let sendUser = message.guild.member(message.mentions.users.first());
+    let amt = parseInt(args[1])
+
+    if (!sendUser) {
+        return message.reply("Mencione quem você quer que receba a doação de coins.");
+    }
+
+    if (isNaN(amt) || amt === 0) {
+        return message.reply("Tá bom, engraçadinho.");
+    }
+
+    Money.findOne({
+        userID: sendUser.id
+    }, (err, coins) => {
+        if (!coins) {
+            const newCoins = new Money({
+                userID: sendUser.id,
+                coins: 0
+            })
+            newCoins.save();
+            message.reply("O usuário não possuia nenhuma coin.")
+        } else if (coins.coins < amt) {
+            message.reply("Este usuário possui menos coins do que você quer retirar.");
+        } else {
+            coins.coins = coins.coins - amt
+            coins.save();   
+
+            const cmdembed = new Discord.MessageEmbed().setColor("fcfcfc")
+            .setDescription(`${message.author} retirou ${amt} Mafia Coins de ${sendUser}`);
+        
+            message.guild.channels.cache
+            .find(cmd => cmd.id === '688172961168883747')
+            .send(cmdembed);
+        }
+    })
+
 
 }
 
@@ -501,24 +655,37 @@ if (cmd.startsWith(`${prefix}removecolor`)) {
         
         **COMANDOS DE MODERAÇÃO** \n
 
-        .mute - Muta o usuário por um determinado tempo. Ex: .mute @user 10m \n
-        OBS: Caso não especifique o tempo, por padrão será 15 Minutos. \n
+        .mute - Muta o usuário por um determinado tempo.\n
+        Sintax: .mute @user [tempo]. Tempo: 10s, 10m, 10d. __Caso não diga o tempo, será 15m.__ \n
+
         .unmute - Desmuta o usuário mencionado. \n
+        Sintax: .unmute @user \n
+
         .warn - Aplica uma warn a um usuário. Se juntar 3, ele será enviado ao julgamento. \n
+        Sintax: .warn @user \n
+
         .judge - Manda o membro direto para o julgamento. \n
+        Sintax: .judge @user
+
         .unwarn - Remove as Warns de um usuário. \n
+        Sintax: .unwarn @user
         .clear - Limpar um número entre 2 e 99 de mensagens no chat. \n
+        Sintax: .clear [Número]
+
         .lock - Locka o chat atual. \n
         .unlock - Unlocka o chat atual. \n
 
         **COMANDOS DE MODERADOR EXPERIENTE+** \n
+        **OBS**: O Uso indevido destes comando poderá resultar em perda do Game Master! \n
 
+        .setlevel - Coloca o level do usuário na quantia desejada. \n
+        Sintax: .setlevel @user [Número] 
 
-        .givecoins - Dá moedas ao usuário. \n
-        **OBS**: O Uso indevido deste comando poderá resultar em perda do Game Master! \n
-        
+        .givecoins - Dá a quantia de coins desejada ao usuário. \n
+        Sintax: .givecoins @user [Número] 
 
-        Comando em __desenvolvimento.__`)
+        .debtcoins - Retira a quantia de coins desejada do usuário. \n
+        Sintax: .debtcoins @user [Número]`)
 
 
     message.author.send(gmembed);
@@ -636,15 +803,16 @@ if (cmd.startsWith(`${prefix}removecolor`)) {
 
  if (cmd.startsWith(`${prefix}lock`)) {
 
-    if (!message.member.roles.cache.find(gm => gm.id === '687785376726777935')) 
-        return message.reply("Apenas um game master pode Lockar o chat.");
+    if (!message.member.hasPermission("KICK_MEMBERS")) 
+        return message.reply("Apenas um Moderador pode Lockar o chat.");
 
 
     message.channel.updateOverwrite(message.channel.guild.roles.everyone, {
         SEND_MESSAGES: false
     })
 
-    const lockembed = new Discord.MessageEmbed().setDescription(`${message.author} trancou o chat.`);
+    const lockembed = new Discord.MessageEmbed().setColor("#3a3b3d")
+    .setDescription(`${message.author} trancou o chat.`);
         message.channel.send(lockembed);
 
 }
@@ -653,14 +821,15 @@ if (cmd.startsWith(`${prefix}removecolor`)) {
 
 if (cmd.startsWith(`${prefix}unlock`)) {
 
-    if (!message.member.roles.cache.find(gm => gm.id === '687785376726777935')) 
+    if (!message.member.hasPermission("KICK_MEMBERS"))
         return message.reply("Apenas um game master pode Unlockar o chat.");
 
     message.channel.updateOverwrite(message.channel.guild.roles.everyone, {
         SEND_MESSAGES: true
     })
 
-    const unlockembed = new Discord.MessageEmbed().setDescription(`${message.author} destrancou o chat.`);
+    const unlockembed = new Discord.MessageEmbed().setColor("#3a3b3d")
+    .setDescription(`${message.author} destrancou o chat.`);
         message.channel.send(unlockembed);
 
 }
