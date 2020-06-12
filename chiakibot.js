@@ -509,7 +509,7 @@ if (cmd.startsWith(`${prefix}coloradd`)) {
     try {
         
         if (message.member.roles.cache.find(vip => vip.id === '712750471067992116')){
-            message.member.roles.remove(colors);
+           await message.member.roles.remove(colors);
             
                 message.member.roles.add(colortoadd);
 
