@@ -56,6 +56,25 @@ client.on("ready", async () => {
     client.user.setActivity('use .help em caso de dúvidas!')
 });
 
+// Script para Welcome.
+
+client.on('guildMemberAdd', member => {
+
+    let Welcome = botconfig.Welcome;
+    let wImage = Math.floor(Math.random() * Welcome.length);
+    
+    const channel = member.guild.channels.cache.find(ch => ch.id === '717033854199660599');
+        if (!channel) return;
+
+    const embed = new Discord.MessageEmbed().setTitle("Bem vindo!!")
+    .setColor('DARK_GOLD')
+    .setDescription(`Olá ${member}! Seja bem vindo ao servidor!`)
+    .setImage(Welcome[wImage])
+    .setFooter('Mafia dos Games © 2020.')
+    channel.send(embed);
+
+})
+
 
 
 // Comandos com prefixo 
@@ -173,46 +192,6 @@ client.on("message", async message => {
     let args = messageArray.slice(1);
 
 /* inicio dos comandos de server */
-
-// Bonus [apagar 12/06]
-
-if (cmd.startsWith(`${prefix}clain`)) {
-
-    if (clainonce.has(message.author.id)) {
-        message.reply("Você já reivindicou seu bonus pela manutenção...");
-    } else {
-    
-        Money.findOne({
-            userID: message.author.id
-        }, (err, coins) => {
-            if (!coins) {
-                const newCoins = new Money({
-                    userID: message.author.id,
-                    coins: 5000
-                })
-                newCoins.save();
-            } else {
-                coins.coins = coins.coins + 5000;
-                coins.save();
-            }
-        });
-
-        database.ref(`Level/${message.author.id}`)
-            .update({
-                xp: 0,
-                level: 15
-            });
-
-            const bonusembed = new Discord.MessageEmbed().setColor("#0c244a")
-            .setDescription(`Você reinvindicou seu bônus devido a manutenção: \n
-            5000 Mafia Coins. \n
-            Passe direto para o level 15 \n`);
-
-            message.reply(bonusembed);
-    }
-
-    clainonce.add(message.author.id);
-}
 
 if (cmd.startsWith(`${prefix}mylevel`)) {
 
