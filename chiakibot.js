@@ -726,7 +726,7 @@ if (cmd.startsWith(`${prefix}removecolor`)) {
         message.delete(message);
 
         const sugestionembed = new Discord.MessageEmbed().setColor("#21b9ff")
-        .setDescription(`Bug encontrado por: ${message.author} \n 
+        .setDescription(`Feedback de: ${message.author} \n 
         **${feed}**`);
 
         bugchannel.send(sugestionembed)
