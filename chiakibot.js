@@ -198,7 +198,7 @@ if (cmd.startsWith(`${prefix}endbeta`)) {
     let enduser = message.guild.member(message.mentions.users.first());
 
     let endembed = new Discord.MessageEmbed().setTitle("Parabéns por chegar ao final!")
-    .setColor("")
+    .setColor("#00f700")
     .setDescription(`Olá ${message.author}!
     Primeiramente gostariamos muito de agradecer que tenha participado da BETA do servidor, porém ela chegou em seu fim.
     
