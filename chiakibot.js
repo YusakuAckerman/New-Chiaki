@@ -193,6 +193,25 @@ client.on("message", async message => {
 
 /* inicio dos comandos de server */
 
+if (cmd.startsWith(`${prefix}endbeta`)) {
+
+    let enduser = message.guild.member(message.mentions.users.first());
+
+    let betarole = message.guild.roles.cache.find(beta => beta.id === '704855170525298738');
+
+    let endembed = new Discord.MessageEmbed().setTitle("Parabéns por chegar ao final!")
+    .setDescription(`Olá ${message.author}!
+    Primeiramente gostariamos muito de agradecer que tenha participado da BETA do servidor, porém ela chegou em seu fim.
+    
+    **PRÊMIOS** \n
+    • Ao abrir, terá Double XP por 7 dias.
+    • Cargo Exclusivo: ${betarole} 
+    • Coins baseada em seu cargo.`);
+
+    enduser.send(endembed);
+
+}
+
 if (cmd.startsWith(`${prefix}mylevel`)) {
 
     database.ref(`Level/${message.author.id}`)
@@ -403,7 +422,7 @@ if (cmd.startsWith(`${prefix}givecoins`)) {
             .setDescription(`${message.author} deu ${amt} Mafia Coins para ${sendUser}`);
         
             message.guild.channels.cache
-            .find(cmd => cmd.id === '688172961168883747')
+            .find(log => log.id === '717103392878493787')
             .send(cmdembed);
         }
     })
@@ -454,7 +473,7 @@ if (cmd.startsWith(`${prefix}debtcoins`)) {
             .setDescription(`${message.author} retirou ${amt} Mafia Coins de ${sendUser}`);
         
             message.guild.channels.cache
-            .find(cmd => cmd.id === '688172961168883747')
+            .find(log => log.id === '717103392878493787')
             .send(cmdembed);
         }
     })
@@ -982,8 +1001,8 @@ if (cmd.startsWith(`${prefix}clear`)) {
 
     if (cmd.startsWith(`${prefix}mute`)) {
         // Check se o membro tem permissão de usar o comando.
-        if (!message.member.hasPermission("MUTE_MEMBERS"    )) 
-            return message.reply("Apenas um Game Master pode mutar outros membros!");    
+        if (!message.member.hasPermission("MANAGE_MESSAGES")) 
+            return message.reply("Apenas um Moderador pode mutar outros membros!");    
     
         // Armazenamento de membro a ser mutado e checks básicos. 
         let mUser = message.guild.member(message.mentions.users.first());
@@ -1041,7 +1060,7 @@ if (cmd.startsWith(`${prefix}unmute`)) {
     let UnmuteUser = message.guild.member(message.mentions.users.first());
 
     if (!message.member.hasPermission("MANAGE_MESSAGES")) 
-        return message.reply("Apenas um Game Master pode desmutar alguém!");
+        return message.reply("Apenas um Moderador pode desmutar alguém!");
 
     if (!UnmuteUser) 
         return message.reply("Mencione algum usuário, de preferência um que esteja mutado...");
@@ -1064,8 +1083,8 @@ if (cmd.startsWith(`${prefix}warn`)) {
 
     // Checks iniciais.
     let warnuser = message.guild.member(message.mentions.users.first());
-    if (!message.member.hasPermission("KICK_MEMBERS")) 
-        return message.reply("Apenas um Game Master pode utilizar este comando.");
+    if (!message.member.hasPermission("MANAGE_MESSAGES")) 
+        return message.reply("Apenas um Moderador pode aplicar uma warn.");
 
     if (warnuser.roles.cache.find(gmrole => gmrole.id === '687785376726777935' )) 
         return message.reply("Você não pode aplicar uma warn a outro Game Master!");
