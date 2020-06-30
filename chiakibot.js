@@ -197,18 +197,23 @@ if (cmd.startsWith(`${prefix}endbeta`)) {
 
     let enduser = message.guild.member(message.mentions.users.first());
 
-    let betarole = message.guild.roles.cache.find(beta => beta.id === '704855170525298738');
-
     let endembed = new Discord.MessageEmbed().setTitle("Parabéns por chegar ao final!")
+    .setColor("")
     .setDescription(`Olá ${message.author}!
     Primeiramente gostariamos muito de agradecer que tenha participado da BETA do servidor, porém ela chegou em seu fim.
     
     **PRÊMIOS** \n
     • Ao abrir, terá Double XP por 7 dias.
-    • Cargo Exclusivo: ${betarole} 
-    • Coins baseada em seu cargo.`);
+    • Cargo Exclusivo de BETA tester  
+    • Coins baseada em seu cargo de level.`);
 
-    enduser.send(endembed);
+    try {
+        await enduser.send(endembed);
+    } catch (e) {
+        guild.owner.send(`Não consegui enviar a mensagem de BETA ao usuário ${enduser.username}`)
+    }
+
+    message.guild.member(enduser).kick("Fim da Beta.");
 
 }
 
@@ -712,21 +717,19 @@ if (cmd.startsWith(`${prefix}removecolor`)) {
     });
 }
 
-    if (cmd.startsWith(`${prefix}bugreport`)) {
-        let bug = args.join(" ");
-        let bugchannel = message.guild.channels.cache.find(sug => sug.id === '715658645622227055'); 
-        if (!bug) 
-            return message.reply("Insira o Bug encontrado....")
+    if (cmd.startsWith(`${prefix}feedback`)) {
+        let feed = args.join(" ");
+        let bugchannel = message.guild.channels.cache.find(sug => sug.id === '688833506063024197'); 
+        if (!feed) 
+            return message.reply("Insira o feedback, por favor ^^")
         
         message.delete(message);
 
         const sugestionembed = new Discord.MessageEmbed().setColor("#21b9ff")
         .setDescription(`Bug encontrado por: ${message.author} \n 
-        **${bug}**`);
+        **${feed}**`);
 
-        bugchannel.send(sugestionembed).then(sugestionembed => {
-            sugestionembed.react('✅')
-        });
+        bugchannel.send(sugestionembed)
     }
 
 // Comando de serverinfo
