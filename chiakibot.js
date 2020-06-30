@@ -210,7 +210,7 @@ if (cmd.startsWith(`${prefix}endbeta`)) {
     try {
         await enduser.send(endembed);
     } catch (e) {
-        guild.owner.send(`Não consegui enviar a mensagem de BETA ao usuário ${enduser.username}`)
+      message.channel.send(`Não consegui enviar a mensagem de BETA ao usuário ${enduser.username}`)
     }
 
     message.guild.member(enduser).kick("Fim da Beta.");
