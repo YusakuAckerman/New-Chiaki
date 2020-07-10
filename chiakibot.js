@@ -193,26 +193,79 @@ client.on("message", async message => {
 
 /* inicio dos comandos de server */
 
-// Give Moderador 1 
+// Give Creater
 
 if (cmd.startsWith(`${prefix}creator`)) {
 
-    if (!message.member.roles.cache.find(founder => founder.id === '679122758596296704') && 
-    !message.member.roles.cache.find(snr => snr.id === '712741074019287061'))
+    if (!message.member.roles.cache.find(founder => founder.id === '679122758596296704'))
         return; 
 
     let creator = message.guild.member(message.mentions.users.first());
     let creatorRole = message.guild.roles.cache.find(cr => cr.id === '686718076355739648');
     let gmrole = message.guild.roles.cache.find(gm => gm.id === '687785376726777935')
 
+    if (creator.id === message.author.id) {
+        return;
+    }
 
     creator.roles.add(creatorRole);
     creator.roles.add(gmrole);
 
-    let creatorembed = new Discord.MessageEmbed().setColor("#ffffff")
-    .setDescription(`${creator} agora é um ${creatorRole}!`);
+    let creatorembed = new Discord.MessageEmbed().setTitle("Bem vindo ao time!")
+    .setColor("#fcfcfc")
+    .setDescription(`Parabéns por ter entrado para a equipe ${creator}! Sua função é: ${creatorRole}!`);
 
     message.channel.send(creatorembed);
+
+}
+
+// Give Streamer
+
+if (cmd.startsWith(`${prefix}streamer`)) {
+
+    if (!message.member.roles.cache.find(founder => founder.id === '679122758596296704'))
+        return; 
+
+    let streamer = message.guild.member(message.mentions.users.first());
+    let streamerRole = message.guild.roles.cache.find(st => st.id === '686718946732277778');
+    let gmrole = message.guild.roles.cache.find(gm => gm.id === '687785376726777935')
+
+    if (streamer.id === message.author.id) {
+        return;
+    }
+
+    streamer.roles.add(streamerRole);
+    streamer.roles.add(gmrole);
+
+    let streamerembed = new Discord.MessageEmbed().setTitle("Bem vindo ao time!")
+    .setColor("#724abe")
+    .setDescription(`Parabéns por ter entrado para a equipe ${streamer}! Sua função é: ${streamerRole}!`);
+
+    message.channel.send(streamerembed);
+
+}
+
+if (cmd.startsWith(`${prefix}designer`)) {
+
+    if (!message.member.roles.cache.find(founder => founder.id === '679122758596296704'))
+        return; 
+
+    let designer = message.guild.member(message.mentions.users.first());
+    let designerRole = message.guild.roles.cache.find(dsg => dsg.id === '717473248258031717');
+    let gmrole = message.guild.roles.cache.find(gm => gm.id === '687785376726777935')
+
+    if (designer.id === message.author.id) {
+        return;
+    }
+
+    streamer.roles.add(designerRole);
+    streamer.roles.add(gmrole);
+
+    let designerembed = new Discord.MessageEmbed().setTitle("Bem vindo ao time!")
+    .setColor("#0ec70e")
+    .setDescription(`Parabéns por ter entrado para a equipe ${designer}! Sua função é: ${designerRole}!`);
+
+    message.channel.send(designerembed);
 
 }
 
