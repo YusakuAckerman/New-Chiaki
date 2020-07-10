@@ -193,29 +193,28 @@ client.on("message", async message => {
 
 /* inicio dos comandos de server */
 
-if (cmd.startsWith(`${prefix}endbeta`)) {
+// Give Moderador 1 
 
-    let enduser = message.guild.member(message.mentions.users.first());
+if (cmd.startsWith(`${prefix}creator`)) {
 
-    let endembed = new Discord.MessageEmbed().setTitle("Parabéns por chegar ao final!")
-    .setColor("#00f700")
-    .setDescription(`Olá ${message.author}!
-    Primeiramente gostariamos muito de agradecer que tenha participado da BETA do servidor, porém ela chegou em seu fim.
+    if (!message.member.roles.cache.find(founder => founder.id === '679122758596296704') && 
+    !message.member.roles.cache.find(snr => snr.id === '712741074019287061'))
+        return; 
+
+    let creator = message.guild.member(message.mentions.users.first());
+    let creatorRole = message.guild.roles.cache.find(cr => cr.id === '686718076355739648');
+
+    creator.roles.add(creatorRole);
     
-    **PRÊMIOS** \n
-    • Ao abrir, terá Double XP por 7 dias.
-    • Cargo Exclusivo de BETA tester  
-    • Coins baseada em seu cargo de level.`);
+    let creatorembed = new Discord.MessageeEmbed().setColor("#ffffff")
+    .setDescription(`${creator} agora é um ${creatorRole}!`);
 
-    try {
-        await enduser.send(endembed);
-    } catch (e) {
-      message.channel.send(`Não consegui enviar a mensagem de BETA ao usuário ${enduser.username}`)
-    }
-
-    message.guild.member(enduser).kick("Fim da Beta.");
+    message.channel.send(creatorembed);
 
 }
+
+
+// My Level
 
 if (cmd.startsWith(`${prefix}mylevel`)) {
 
