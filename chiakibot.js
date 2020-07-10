@@ -258,8 +258,8 @@ if (cmd.startsWith(`${prefix}designer`)) {
         return;
     }
 
-    streamer.roles.add(designerRole);
-    streamer.roles.add(gmrole);
+    designer.roles.add(designerRole);
+    designer.roles.add(gmrole);
 
     let designerembed = new Discord.MessageEmbed().setTitle("Bem vindo ao time!")
     .setColor("#0ec70e")
