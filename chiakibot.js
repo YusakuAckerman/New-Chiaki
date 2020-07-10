@@ -279,7 +279,7 @@ if (cmd.startsWith(`${prefix}support`)) {
         return; 
 
     let support = message.guild.member(message.mentions.users.first());
-    let supportRole = message.guild.roles.cache.find(dsg => dsg.id === '717473248258031717');
+    let supportRole = message.guild.roles.cache.find(sup => sup.id === '717473096373895292');
     let gmrole = message.guild.roles.cache.find(gm => gm.id === '687785376726777935')
 
     if (support.id === message.author.id) {
