@@ -206,7 +206,8 @@ if (cmd.startsWith(`${prefix}creator`)) {
     let gmrole = message.guild.roles.cache.find(gm => gm.id === '687785376726777935')
 
 
-    creator.roles.add(creatorRole, gmrole);
+    creator.roles.add(creatorRole);
+    creator.roles.add(gmrole);
 
     let creatorembed = new Discord.MessageEmbed().setColor("#ffffff")
     .setDescription(`${creator} agora é um ${creatorRole}!`);
