@@ -245,6 +245,8 @@ if (cmd.startsWith(`${prefix}streamer`)) {
 
 }
 
+// Give Designer
+
 if (cmd.startsWith(`${prefix}designer`)) {
 
     if (!message.member.roles.cache.find(founder => founder.id === '679122758596296704'))
@@ -269,6 +271,31 @@ if (cmd.startsWith(`${prefix}designer`)) {
 
 }
 
+// Give Support
+
+if (cmd.startsWith(`${prefix}support`)) {
+
+    if (!message.member.roles.cache.find(founder => founder.id === '679122758596296704'))
+        return; 
+
+    let support = message.guild.member(message.mentions.users.first());
+    let supportRole = message.guild.roles.cache.find(dsg => dsg.id === '717473248258031717');
+    let gmrole = message.guild.roles.cache.find(gm => gm.id === '687785376726777935')
+
+    if (support.id === message.author.id) {
+        return;
+    }
+
+    support.roles.add(supportRole);
+    support.roles.add(gmrole);
+
+    let supportembed = new Discord.MessageEmbed().setTitle("Bem vindo ao time!")
+    .setColor("#4a4aca")
+    .setDescription(`Parabéns por ter entrado para a equipe ${support}! Sua função é: ${supportRole}!`);
+
+    message.channel.send(supportembed);
+
+}
 
 // My Level
 
