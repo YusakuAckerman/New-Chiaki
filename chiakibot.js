@@ -203,10 +203,12 @@ if (cmd.startsWith(`${prefix}creator`)) {
 
     let creator = message.guild.member(message.mentions.users.first());
     let creatorRole = message.guild.roles.cache.find(cr => cr.id === '686718076355739648');
+    let gmrole = message.guild.roles.cache.find(gm => gm.id === '687785376726777935')
 
-    creator.roles.add(creatorRole);
-    
-    let creatorembed = new Discord.MessageeEmbed().setColor("#ffffff")
+
+    creator.roles.add(creatorRole, gmrole);
+
+    let creatorembed = new Discord.MessageEmbed().setColor("#ffffff")
     .setDescription(`${creator} agora é um ${creatorRole}!`);
 
     message.channel.send(creatorembed);
