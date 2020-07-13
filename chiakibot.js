@@ -98,7 +98,7 @@ client.on("message", async message => {
 
     global.xp = '';
     global.nextlevel = '';
-    let xpadd = Math.floor(Math.random() * 15) + 15;
+    let xpadd = Math.floor(Math.random() * 22) + 18;
 
     database.ref(`Level/${message.author.id}`)
         .once('value').then(async function(snap) {
@@ -111,7 +111,7 @@ client.on("message", async message => {
             } else { 
 
                 xp = snap.val().xp + xpadd;
-                nextlevel = snap.val().level * 450;
+                nextlevel = snap.val().level * 425;
                 database.ref(`Level/${message.author.id}`)
                     .update({
                         xp: xp
@@ -197,6 +197,8 @@ client.on("message", async message => {
 
 if (cmd.startsWith(`${prefix}creator`)) {
 
+    await message.delete(message)
+
     if (!message.member.roles.cache.find(founder => founder.id === '679122758596296704'))
         return; 
 
@@ -221,7 +223,9 @@ if (cmd.startsWith(`${prefix}creator`)) {
 
 // Give Streamer
 
-if (cmd.startsWith(`${prefix}streamer`)) {
+if (cmd.startsWith(`${prefix}streamer`)) { 
+
+    await message.delete(meessage)
 
     if (!message.member.roles.cache.find(founder => founder.id === '679122758596296704'))
         return; 
@@ -229,10 +233,6 @@ if (cmd.startsWith(`${prefix}streamer`)) {
     let streamer = message.guild.member(message.mentions.users.first());
     let streamerRole = message.guild.roles.cache.find(st => st.id === '686718946732277778');
     let gmrole = message.guild.roles.cache.find(gm => gm.id === '687785376726777935')
-
-    if (streamer.id === message.author.id) {
-        return;
-    }
 
     streamer.roles.add(streamerRole);
     streamer.roles.add(gmrole);
@@ -249,16 +249,14 @@ if (cmd.startsWith(`${prefix}streamer`)) {
 
 if (cmd.startsWith(`${prefix}designer`)) {
 
+    await message.delete(message)
+
     if (!message.member.roles.cache.find(founder => founder.id === '679122758596296704'))
         return; 
 
     let designer = message.guild.member(message.mentions.users.first());
     let designerRole = message.guild.roles.cache.find(dsg => dsg.id === '717473248258031717');
     let gmrole = message.guild.roles.cache.find(gm => gm.id === '687785376726777935')
-
-    if (designer.id === message.author.id) {
-        return;
-    }
 
     designer.roles.add(designerRole);
     designer.roles.add(gmrole);
@@ -275,16 +273,14 @@ if (cmd.startsWith(`${prefix}designer`)) {
 
 if (cmd.startsWith(`${prefix}support`)) {
 
+    await message.delete(message)
+
     if (!message.member.roles.cache.find(founder => founder.id === '679122758596296704'))
         return; 
 
     let support = message.guild.member(message.mentions.users.first());
     let supportRole = message.guild.roles.cache.find(sup => sup.id === '717473096373895292');
     let gmrole = message.guild.roles.cache.find(gm => gm.id === '687785376726777935')
-
-    if (support.id === message.author.id) {
-        return;
-    }
 
     support.roles.add(supportRole);
     support.roles.add(gmrole);
@@ -305,7 +301,7 @@ if (cmd.startsWith(`${prefix}mylevel`)) {
         .once("value").then(async function(snap) {
             currxp = snap.val().xp;
             currlevel = snap.val().level;
-            tonext = snap.val().level * 450;
+            tonext = snap.val().level * 425;
             diff = tonext - currxp; 
 
             const mylevelembed = new Discord.MessageEmbed().setTitle("Nivel de respeito:")
@@ -628,7 +624,7 @@ if (cmd.startsWith(`${prefix}coloradd`)) {
         }
     } 
     catch(e) {
-        message.channel.send("Deu doidera."); 
+        message.channel.send(`Algo inesperado aconteceu, caso persista, fale com ${owner}`); 
     }
 
 }
@@ -685,15 +681,9 @@ if (cmd.startsWith(`${prefix}removecolor`)) {
             }
         } 
         catch(e) {
-            message.channel.send("Deu doidera."); 
+            message.channel.send(`Algo inesperado aconteceu, caso persista, fale com ${owner}`); 
         }
 }
-
-
-
-// Comando de level 
-
-
 
 // Comando de help 
 
@@ -1388,9 +1378,6 @@ if (cmd.startsWith(`${prefix}kiss`)) {
             message.channel.send(kissembed);
         }
         
-    
-
-
 }   
 
 
