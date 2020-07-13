@@ -711,7 +711,7 @@ if (cmd.startsWith(`${prefix}removecolor`)) {
  
         **COMANDOS DE SERVIDOR** \n
 
-        .report - Reporta o usuário mencionado com um motivo. \n
+        .report - Reporta o usuário mencionado com um motivo, caso o reportado seja um Game Master, apenas os Founder poderão ver. \n
         .sugestion - Envia sua sugestão ao canal de #Sugestões. \n
         .bugreport - Reporta um bug ao canal de #Bug-Reports \n
         
