@@ -1008,20 +1008,21 @@ if (cmd.startsWith(`${prefix}kick`)) {
     .setDescription(`${kUser} foi kickado do servidor.`)
     .setImage('https://cdn.discordapp.com/attachments/351504904256356353/715662884457414666/Burrice.gif');
 
-    message.reply(simpleEmbedKick);
+    message.channel.send(simpleEmbedKick);
 
     // Embed que será mandado no chat de punidos
     let KickEmbed = new Discord.MessageEmbed().setTitle("Usuário kickado.")
     .setDescription("Usuário punido.")
     .setColor("#ff8000")
     .addField("Usuário kickado: ", `${kUser}`)
+    .setThumbnail(kUser.avatarURL())
     .addField("Game Master: ", `${message.author}`)
     .addField("Dia: ", datahoje)
     .addField("Motivo:", kReason);     
     
     // Procura o canal que será mandado a mensagem construida acima.
-    message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
-    .send(KickEmbed);
+    await message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
+            .send(KickEmbed);
 
     
     // Kicka o membro e envia a mensagem no canal definido.
@@ -1056,17 +1057,18 @@ if (cmd.startsWith(`${prefix}kick`)) {
     .setImage('https://cdn.discordapp.com/attachments/351504904256356353/715662853780013097/discord-ban-gif-4.gif')
     .setDescription(`${bUser} foi banido do servidor.`);
 
-    message.reply(simpleEmbedBan);
+    message.channel.send(simpleEmbedBan);
 
     const BanEmbed = new Discord.MessageEmbed().setTitle("Usuário banido")
     .setColor("#ff0000")
     .addField("Usuário banido: ", `${bUser}`)
     .addField("Game Master: ", `${message.author}`)
+    .setThumbnail(bUser.avatarURL())
     .addField("Dia: ", datahoje)
     .addField("Motivo:", bReason);
     
-    message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
-    .send(BanEmbed);
+    await message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
+            .send(BanEmbed);
     
     message.guild.member(bUser).ban(bReason);
 
@@ -1146,6 +1148,7 @@ if (cmd.startsWith(`${prefix}clear`)) {
     // Embed que será enviado ao chat de Punidos.
     const MuteEmbed = new Discord.MessageEmbed().setTitle("Usuário mutado")
     .setColor("#ff0000") 
+    .setThumbnail(mUser.avatarURL())
     .addField("Usuário mutado: ", `${mUser}`)
     .addField("Game Master: ", `${message.author}`)
     .addField("Dia: ", datahoje)
