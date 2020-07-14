@@ -97,8 +97,27 @@ client.on('guildMemberAdd', member => {
 // Comandos com prefixo 
 
 client.on("message", async message => {
+
     if(message.channel.type === "dm") 
         return;
+
+        let date_ob = new Date();
+
+        // adjust 0 before single digit date
+        let date = ("0" + date_ob.getDate()).slice(-2);
+        
+        // current month
+        let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+        
+        // current year
+        let year = date_ob.getFullYear();
+        
+        // prints date in YYYY-MM-DD format
+        let testvar = (year + "-" + month + "-" + date);
+
+        if (cmd.startsWith(`${prefix}testevar`)) {
+            message.channel.send(testvar)
+        }
 
         let lv1role = message.guild.roles.cache.find(lvup => lvup.id === '687793211384791050');
         let lv5role = message.guild.roles.cache.find(lvup => lvup.id === '687793237913501740');
