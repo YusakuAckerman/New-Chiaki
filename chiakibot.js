@@ -1116,7 +1116,7 @@ if (cmd.startsWith(`${prefix}clear`)) {
             return message.reply("Apenas um Moderador pode mutar outros membros!");    
     
         // Armazenamento de membro a ser mutado e checks básicos. 
-        let mUser = message.guild.member(message.mentions.users.first());
+        let mUser = message.mentions.users.first();
         if (!mUser) 
             return message.reply("Mencione quem você deseja mutar.");
 
