@@ -50,17 +50,23 @@ mongoose.connect("mongodb+srv://YusakuAckerman:YosugaNoSora@coinsystemchiaki-jgq
 
 let date_ob = new Date();
 
-// adjust 0 before single digit date
+// Dia
 let date = ("0" + date_ob.getDate()).slice(-2);
 
-// current month
+// Mês
 let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
 
-// current year
+// Ano
 let year = date_ob.getFullYear();
 
-// prints date in YYYY-MM-DD format
-let datahoje = (date + "/" + month + "/" + year);
+// Hora
+let hora = date_ob.getHours();
+
+// Minutos
+let minutos = date_ob.getMinutes();
+
+// 
+let datahoje = (date + "/" + month + "/" + year + "Horário: " + hora + ":" + minutos );
 
 // ----------------------------------------------------------------------
 
