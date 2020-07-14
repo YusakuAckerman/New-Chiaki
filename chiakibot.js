@@ -48,6 +48,23 @@ mongoose.connect("mongodb+srv://YusakuAckerman:YosugaNoSora@coinsystemchiaki-jgq
 
 // ----------------------------------------------------------------------
 
+let date_ob = new Date();
+
+// adjust 0 before single digit date
+let date = ("0" + date_ob.getDate()).slice(-2);
+
+// current month
+let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+
+// current year
+let year = date_ob.getFullYear();
+
+// prints date in YYYY-MM-DD format
+let datahoje = (date + "/" + month + "/" + year);
+
+// ----------------------------------------------------------------------
+
+
 // Evento para setar a atividade do bot.
 
 client.on("ready", async () => {
@@ -68,7 +85,8 @@ client.on('messageDelete', async message => {
     .setColor("#4d00a6")
     .setThumbnail(message.author.avatarURL())
     .addField("Autor da Mensagem:", `${message.author}` )
-    .addField("Mensagem deletada:", `${message.content}`);
+    .addField("Mensagem deletada:", `${message.content}`)
+    .addField("Dia:", datahoje);
      
     message.guild.channels.cache.find(log => log.id === '732670112905298000')
     .send(logembed);
@@ -208,27 +226,6 @@ client.on("message", async message => {
     let messageArray = message.content.split(" ");
     let cmd = messageArray[0].toLowerCase();
     let args = messageArray.slice(1);
-
-
-    let date_ob = new Date();
-
-    // adjust 0 before single digit date
-    let date = ("0" + date_ob.getDate()).slice(-2);
-    
-    // current month
-    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
-    
-    // current year
-    let year = date_ob.getFullYear();
-    
-    // prints date in YYYY-MM-DD format
-    let testvar = (year + "-" + month + "-" + date);
-
-    if (cmd.startsWith(`${prefix}testevar`)) {
-        message.channel.send(testvar)
-    }
-
-
 
 /* inicio dos comandos de server */
 
