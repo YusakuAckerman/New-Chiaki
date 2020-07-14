@@ -66,7 +66,7 @@ let hora = date_ob.getHours();
 let minutos = date_ob.getMinutes();
 
 // 
-let datahoje = (date + "/" + month + "/" + year + "Horário: " + hora + ":" + minutos );
+let datahoje = (date + "/" + month + "/" + year + " Horário: " + hora + ":" + minutos );
 
 // ----------------------------------------------------------------------
 
