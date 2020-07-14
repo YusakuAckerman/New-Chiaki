@@ -66,7 +66,7 @@ let hora = date_ob.getHours();
 let minutos = date_ob.getMinutes();
 
 // 
-let datahoje = (date + "/" + month + "/" + year + " Horário: " + hora + ":" + minutos );
+let datahoje = (date + "/" + month + "/" + year + " às: " + hora + ":" + minutos );
 
 // ----------------------------------------------------------------------
 
@@ -85,6 +85,9 @@ client.on('messageDelete', async message => {
 
     if (message.author.bot) 
         return;
+
+        if (message.channel.type === 'dm')
+            return;
     
     logembed = new Discord.MessageEmbed()
     .setDescription(`**Messagem Deletada**`)
@@ -878,7 +881,7 @@ if (cmd.startsWith(`${prefix}removecolor`)) {
         .setColor("#ff0000")
         .setDescription(`mensagem deletada: ${message.content}`)
         .addField("Usuário:", `${message.author}`)
-        .addField("Hora: ", message.createdAt);
+        .addField("Dia: ", datahoje);
 
         const antiinviteembed = new Discord.MessageEmbed()
         .setColor("#ff0000")
@@ -956,7 +959,7 @@ if (cmd.startsWith(`${prefix}report`)) {
     .setThumbnail("https://www.pinclipart.com/picdir/middle/1-12435_ace-attorney-clipart-objection-ace-attorney-objection-meme.png")
     .addField("Usuário reportado:", `${rUser}`)
     .addField("Reportado por: ", `${message.author}`)
-    .addField("Hora: ", message.createdAt)
+    .addField("Dia ", datahoje)
     .addField("Motivo: ", rreason);
 
     if (rUser.roles.cache.find(gm => gm.id === '687785376726777935')) {
@@ -1013,7 +1016,7 @@ if (cmd.startsWith(`${prefix}kick`)) {
     .setColor("#ff8000")
     .addField("Usuário kickado: ", `${kUser}`)
     .addField("Game Master: ", `${message.author}`)
-    .addField("Hora: ", message.createdAt)
+    .addField("Dia: ", datahoje)
     .addField("Motivo:", kReason);     
     
     // Procura o canal que será mandado a mensagem construida acima.
@@ -1059,7 +1062,7 @@ if (cmd.startsWith(`${prefix}kick`)) {
     .setColor("#ff0000")
     .addField("Usuário banido: ", `${bUser}`)
     .addField("Game Master: ", `${message.author}`)
-    .addField("Hora: ", message.createdAt)
+    .addField("Dia: ", datahoje)
     .addField("Motivo:", bReason);
     
     message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
@@ -1145,7 +1148,7 @@ if (cmd.startsWith(`${prefix}clear`)) {
     .setColor("#ff0000") 
     .addField("Usuário mutado: ", `${mUser}`)
     .addField("Game Master: ", `${message.author}`)
-    .addField("Hora: ", message.createdAt)
+    .addField("Dia: ", datahoje)
     .addField("Tempo mutado: ", `${ms(ms(mutetime))}`);
     
     // Procura o canal de mutados e envia o Embed construido acima.
