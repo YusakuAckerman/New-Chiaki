@@ -1120,7 +1120,7 @@ if (cmd.startsWith(`${prefix}clear`)) {
         if (!mUser) 
             return message.reply("Mencione quem você deseja mutar.");
 
-        if (mUser.roles.cache.find(gm => gm.id === '687785376726777935')) 
+        if (mUser.roles.find(gm => gm.id === '687785376726777935')) 
             return message.reply("você não pode mutar outro Game Master!");
 
         // Procura a role de mute pela ID e armazena o tempo de mute desejado
