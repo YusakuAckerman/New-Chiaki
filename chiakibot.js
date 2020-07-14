@@ -59,11 +59,20 @@ client.on("ready", async () => {
 // Script para Welcome.
 
 client.on('messageDelete', async message => {
+
+    if (message.author.bot) 
+        return;
     
-    logembed = new Discord.MessageEmbed().setDescription(`${message.author} deletou esta messagem: \n ${message.content}`)
-    
-    
-    message.guild.channels.cache.find(log => log.id === '732670112905298000').send(logembed);
+    logembed = new Discord.MessageEmbed()
+    .setDescription(`**Messagem Deletada**`)
+    .setColor("#4d00a6")
+    .setThumbnail(message.author.avatarURL())
+    .addField("Autor da Mensagem:", `${message.author}` )
+    .addField("Mensagem deletada:", `${message.content}`);
+     
+    message.guild.channels.cache.find(log => log.id === '732670112905298000')
+    .send(logembed);
+
 })
 
 client.on('guildMemberAdd', member => {
@@ -75,7 +84,7 @@ client.on('guildMemberAdd', member => {
         if (!channel) return;
 
     const embed = new Discord.MessageEmbed().setTitle("Bem vindo!!")
-    .setColor('DARK_GOLD')
+    .setColor('#04ff00')
     .setDescription(`Olá ${member}! Seja bem vindo ao servidor!`)
     .setImage(Welcome[wImage])
     .setFooter('Mafia dos Games © 2020.')
