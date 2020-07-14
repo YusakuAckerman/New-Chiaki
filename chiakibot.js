@@ -1045,7 +1045,6 @@ if (cmd.startsWith(`${prefix}kick`)) {
     .setColor("#ff0000")
     .addField("Usuário banido: ", `${bUser}`)
     .addField("Game Master: ", `${message.author}`)
-    .setThumbnail(bUser.avatarURL())
     .addField("Dia: ", datahoje)
     .addField("Motivo:", bReason);
     
