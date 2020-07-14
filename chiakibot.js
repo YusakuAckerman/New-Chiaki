@@ -1116,11 +1116,11 @@ if (cmd.startsWith(`${prefix}clear`)) {
             return message.reply("Apenas um Moderador pode mutar outros membros!");    
     
         // Armazenamento de membro a ser mutado e checks básicos. 
-        let mUser = message.mentions.users.first();
+        let mUser = message.guild.member(message.mentions.users.first());
         if (!mUser) 
             return message.reply("Mencione quem você deseja mutar.");
 
-        if (mUser.roles.find(gm => gm.id === '687785376726777935')) 
+        if (mUser.roles.cache.find(gm => gm.id === '687785376726777935')) 
             return message.reply("você não pode mutar outro Game Master!");
 
         // Procura a role de mute pela ID e armazena o tempo de mute desejado
@@ -1148,7 +1148,7 @@ if (cmd.startsWith(`${prefix}clear`)) {
     // Embed que será enviado ao chat de Punidos.
     const MuteEmbed = new Discord.MessageEmbed().setTitle("Usuário mutado")
     .setColor("#ff0000") 
-    .setThumbnail(mUser.avatarURL())
+    .setThumbnail(mUser.avatarURL)
     .addField("Usuário mutado: ", `${mUser}`)
     .addField("Game Master: ", `${message.author}`)
     .addField("Dia: ", datahoje)
