@@ -1003,7 +1003,7 @@ if (cmd.startsWith(`${prefix}kick`)) {
     .addField("Motivo:", kReason);     
     
     // Procura o canal que será mandado a mensagem construida acima.
-    await message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
+    message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
             .send(KickEmbed);
 
     
@@ -1048,7 +1048,7 @@ if (cmd.startsWith(`${prefix}kick`)) {
     .addField("Dia: ", datahoje)
     .addField("Motivo:", bReason);
     
-    await message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
+    message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
             .send(BanEmbed);
     
     message.guild.member(bUser).ban(bReason);
