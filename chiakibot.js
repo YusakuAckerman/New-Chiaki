@@ -1148,7 +1148,7 @@ if (cmd.startsWith(`${prefix}clear`)) {
     // Embed que será enviado ao chat de Punidos.
     const MuteEmbed = new Discord.MessageEmbed().setTitle("Usuário mutado")
     .setColor("#ff0000") 
-    .setThumbnail(mUser.avatarURL)
+    .setThumbnail(mUser.displayAvatarURL())
     .addField("Usuário mutado: ", `${mUser}`)
     .addField("Game Master: ", `${message.author}`)
     .addField("Dia: ", datahoje)
