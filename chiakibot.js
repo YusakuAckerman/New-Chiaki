@@ -93,7 +93,8 @@ client.on('messageDelete', async message => {
     .setDescription(`**Messagem Deletada**`)
     .setColor("#4d00a6")
     .setThumbnail(message.author.avatarURL())
-    .addField("Autor da Mensagem:", `${message.author}` )
+    .addField("Autor da Mensagem:", `${message.author} (${message.author.id})`)
+    .addField("Canal: ", `${message.channel.name}`)
     .addField("Mensagem deletada:", `${message.content}`)
     .addField("Dia:", datahoje);
      
