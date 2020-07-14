@@ -60,7 +60,7 @@ let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
 let year = date_ob.getFullYear();
 
 // Hora
-let hora = ("0" + (date_ob.getHours() + 1)).slice(-2) - 3;
+let hora = ("0" + (date_ob.getHours() + 1)).slice(-2) - 4;
 
 // Minutos
 let minutos = ("0" + (date_ob.getMinutes() + 1)).slice(-2);
