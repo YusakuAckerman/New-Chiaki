@@ -60,13 +60,13 @@ let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
 let year = date_ob.getFullYear();
 
 // Hora
-let hora = ("0" + (date_ob.getHours() + 1)).slice(-2);
+let hora = ("0" + (date_ob.getHours() + 1)).slice(-2) - 3;
 
 // Minutos
 let minutos = ("0" + (date_ob.getMinutes() + 1)).slice(-2);
 
 // 
-let datahoje = (date + "/" + month + "/" + year + " às: " + hora - 3 + ":" + minutos );
+let datahoje = (date + "/" + month + "/" + year + " às: " + hora + ":" + minutos );
 
 // ----------------------------------------------------------------------
 
