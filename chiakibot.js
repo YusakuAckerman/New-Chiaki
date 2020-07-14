@@ -834,23 +834,6 @@ if (cmd.startsWith(`${prefix}removecolor`)) {
     });
 }
 
-// Comando de serverinfo
-
-
-    if (cmd.startsWith(`${prefix}serverinfo`)) {
-        let serverembed = new Discord.MessageEmbed().setTitle("Server Info")
-        .setDescription("Informações do servidor: ")
-        .setColor("#fc7b03")
-        .addField("Nome do servidor: ", message.guild.name)
-        .addField("Server criado em: ", message.guild.createdAt)
-        .addField("Você se juntou em: ", message.member.joinedAt)
-        .addField("Total de membros: ", message.guild.memberCount)
-        .setThumbnail(message.guild.iconURL());
-
-        message.reply(serverembed);
-
-    } 
-
 
 // Comando de avatar
 
@@ -1015,7 +998,6 @@ if (cmd.startsWith(`${prefix}kick`)) {
     .setDescription("Usuário punido.")
     .setColor("#ff8000")
     .addField("Usuário kickado: ", `${kUser}`)
-    .setThumbnail(kUser.avatarURL())
     .addField("Game Master: ", `${message.author}`)
     .addField("Dia: ", datahoje)
     .addField("Motivo:", kReason);     
