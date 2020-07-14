@@ -1148,12 +1148,13 @@ if (cmd.startsWith(`${prefix}clear`)) {
     // Embed que será enviado ao chat de Punidos.
     const MuteEmbed = new Discord.MessageEmbed().setTitle("Usuário mutado")
     .setColor("#ff0000") 
-    .setThumbnail(mUser.displayAvatarURL())
+    .setThumbnail(mUser.displayAvatarURL)
     .addField("Usuário mutado: ", `${mUser}`)
     .addField("Game Master: ", `${message.author}`)
     .addField("Dia: ", datahoje)
     .addField("Tempo mutado: ", `${ms(ms(mutetime))}`);
-    
+
+
     // Procura o canal de mutados e envia o Embed construido acima.
     message.guild.channels.cache.find(ch => ch.id === '714857756884205668')
     .send(MuteEmbed);
