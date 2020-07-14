@@ -58,6 +58,14 @@ client.on("ready", async () => {
 
 // Script para Welcome.
 
+client.on('messageDelete', async message => {
+    
+    logembed = new Discord.MessageEmbed().setDescription(`${message.author} deletou esta messagem: \n ${message.content}`)
+    
+    
+    message.guild.channels.cache.find(log => log.id === '732670112905298000').send(logembed);
+})
+
 client.on('guildMemberAdd', member => {
 
     let Welcome = botconfig.Welcome;
@@ -694,7 +702,7 @@ if (cmd.startsWith(`${prefix}removecolor`)) {
 
         .daily - Concede um número aleatório entre 200 e 400 de Mafia Coins. OBS: Possui um Cooldown de 24 Horas. \n 
         .mycoins - Mostra a quantia de coins que você possui. \n
-        .sendcoins - Envia uma quantia X de coins ao usuário mencionado. \n
+        .sendcoins - Envia uma quantia de coins ao usuário mencionado. \n
         .mylevel - Mostra o seu level atual no server. \n 
         .colors - Mostra as cores disponiveis no servidor. \n
         .coloradd - Adiciona a cor desejada, custa 200 Mafia Coins. \n
@@ -713,8 +721,7 @@ if (cmd.startsWith(`${prefix}removecolor`)) {
 
         .report - Reporta o usuário mencionado com um motivo, caso o reportado seja um Game Master, apenas os Founder poderão ver. \n
         .sugestion - Envia sua sugestão ao canal de #Sugestões. \n
-        .bugreport - Reporta um bug ao canal de #Bug-Reports \n
-        
+                
         Qualquer dúvida, fale diretamente com: ${message.guild.owner}`);
         message.author.send(helpembed);
     } // Fim .help
@@ -744,6 +751,7 @@ if (cmd.startsWith(`${prefix}removecolor`)) {
 
         .unwarn - Remove as Warns de um usuário. \n
         Sintax: .unwarn @user
+
         .clear - Limpar um número entre 2 e 99 de mensagens no chat. \n
         Sintax: .clear [Número]
 
@@ -788,21 +796,6 @@ if (cmd.startsWith(`${prefix}removecolor`)) {
     
     });
 }
-
-    if (cmd.startsWith(`${prefix}feedback`)) {
-        let feed = args.join(" ");
-        let bugchannel = message.guild.channels.cache.find(sug => sug.id === '688833506063024197'); 
-        if (!feed) 
-            return message.reply("Insira o feedback, por favor ^^")
-        
-        message.delete(message);
-
-        const sugestionembed = new Discord.MessageEmbed().setColor("#21b9ff")
-        .setDescription(`Feedback de: ${message.author} \n 
-        **${feed}**`);
-
-        bugchannel.send(sugestionembed)
-    }
 
 // Comando de serverinfo
 
@@ -918,6 +911,8 @@ if (cmd.startsWith(`${prefix}report`)) {
 
     // motivo 
     let rreason = args.join(" ").slice(22);
+
+
     if (!rreason) 
         return message.reply("Especifique um motivo! Não é possivel reportar alguém sem um motivo."); 
 
@@ -988,11 +983,13 @@ if (cmd.startsWith(`${prefix}kick`)) {
     .addField("Motivo:", kReason);     
     
     // Procura o canal que será mandado a mensagem construida acima.
-    const kickChannel = message.guild.channels.cache.find(ch => ch.id === '707253571120529498');
-    kickChannel.send(KickEmbed);  
+    message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
+    .send(KickEmbed);
+
     
     // Kicka o membro e envia a mensagem no canal definido.
-    message.guild.member(kUser).kick(kReason);
+    message.guild.member(kUser)
+    .kick(kReason);
 
 
 }
@@ -1025,16 +1022,16 @@ if (cmd.startsWith(`${prefix}kick`)) {
     message.reply(simpleEmbedBan);
 
     const BanEmbed = new Discord.MessageEmbed().setTitle("Usuário banido")
-    .setColor("#ff0000") 
+    .setColor("#ff0000")
     .addField("Usuário banido: ", `${bUser}`)
     .addField("Game Master: ", `${message.author}`)
     .addField("Hora: ", message.createdAt)
     .addField("Motivo:", bReason);
     
-    const banChannel = message.guild.channels.cache.find(ch => ch.id === '707253571120529498');
-     
+    message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
+    .send(BanEmbed);
+    
     message.guild.member(bUser).ban(bReason);
-    banChannel.send(BanEmbed);
 
     }
 
@@ -1051,7 +1048,7 @@ if (cmd.startsWith(`${prefix}clear`)) {
     .addField("Exemplo", "`.clear 10`");
 
 
-    let clearmessage = args[0];
+    let clearmessage = parseInt(args[0]);
     if (isNaN(clearmessage)) {
          return message.reply("Eu só consigo apagar números... Digite números, por favor.")
     }
@@ -1118,8 +1115,8 @@ if (cmd.startsWith(`${prefix}clear`)) {
     .addField("Tempo mutado: ", `${ms(ms(mutetime))}`);
     
     // Procura o canal de mutados e envia o Embed construido acima.
-    const muteChannel = message.guild.channels.cache.find(ch => ch.id === '714857756884205668');
-    muteChannel.send(MuteEmbed);
+    message.guild.channels.cache.find(ch => ch.id === '714857756884205668')
+    .send(MuteEmbed);
 
     // Função pra determinar o tempo de mute.
     setTimeout(function(){
