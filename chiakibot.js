@@ -398,7 +398,7 @@ if (cmd.startsWith(`${prefix}setlevel`)) {
 
 }
 
-if (cmd.startsWith(`${prefix}bangif`)) {
+if (cmd.startsWith(`${prefix}letbangif`)) {
     let varteste = args[0]
 
     if (!message.content.toLowerCase.startsWith("http")) {
