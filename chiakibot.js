@@ -401,8 +401,10 @@ if (cmd.startsWith(`${prefix}setlevel`)) {
 if (cmd.startsWith(`${prefix}setbangif`)) {
     let varteste = args[0]
 
-    if (!varteste.includes("http")) {
-        return message.channel.send("Sim, funciona")
+    if (!message.content.includes("http")) {
+        return message.channel.send("Não é um link.")
+    } else {
+        return message.channel.send("É um link.")
     }
 }
 
