@@ -1014,27 +1014,37 @@ if (cmd.startsWith(`${prefix}kick`)) {
     database.ref(`bangif/${message.author.id}`).once('value')
         .then(async function(snap) {
             if (snap.val === null) {
-                database.ref(`bangif/${message.author.id}`)
-                .set({
-                    GIF: "https://cdn.discordapp.com/attachments/351504904256356353/715662884457414666/Burrice.gif"
-                })
-            } 
+                let simpleEmbedKicknoset = new Discord.MessageEmbed()
+                .setColor("#ff8000")
+                .setDescription(`${kUser} foi kickado do servidor.`)
+                .setImage("https://cdn.discordapp.com/attachments/351504904256356353/715662884457414666/Burrice.gif");
+
+                try {
+                    message.channel.send(simpleEmbedKicknoset);
+                } catch(e) {
+                    message.channel.send("deu algo errado.")
+                }
+
+            } else {
+                let thegif = snap.val().GIF
+
+                let simpleEmbedKick = new Discord.MessageEmbed()
+                .setColor("#ff8000")
+                .setDescription(`${kUser} foi kickado do servidor.`)
+                .setImage(thegif);
+        
+                try {
+                    message.reply(simpleEmbedKick);
+                } catch(e) {
+                    message.channel.send("deu algo errado.")
+                }
+
+            }
         })
-    
+
     database.ref(`bangif/${message.author.id}`).once('value')
     .then(async function(snap) {
-        thegif = snap.val().GIF
-
-        let simpleEmbedKick = new Discord.MessageEmbed()
-        .setColor("#ff8000")
-        .setDescription(`${kUser} foi kickado do servidor.`)
-        .setImage(thegif);
-
-        try {
-            message.channel.send(simpleEmbedKick);
-        } catch(e) {
-            message.channel.send("deu algo errado.")
-        }
+ 
     })
 
 
