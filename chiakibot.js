@@ -272,7 +272,7 @@ if (cmd.startsWith(`${prefix}creator`)) {
 
 if (cmd.startsWith(`${prefix}streamer`)) { 
 
-    await message.delete(meessage)
+    await message.delete(message)
 
     if (!message.member.roles.cache.find(founder => founder.id === '679122758596296704'))
         return; 
