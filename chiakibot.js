@@ -144,6 +144,7 @@ client.on("message", async message => {
 
     global.xp = '';
     global.nextlevel = '';
+    global.GIF = '';
     let xpadd = Math.floor(Math.random() * 22) + 18;
 
     database.ref(`Level/${message.author.id}`)
@@ -418,7 +419,7 @@ if (cmd.startsWith(`${prefix}letbangif`)) {
             })
 
     } else {
-        return message.channel.send("Ahn... Isso realmente é um link de imagem? Verifique se há http no começo...")
+        return message.channel.send("Ahn... Isso realmente é um link de imagem ou gif? Verifique se há http no começo...")
     }
 }
 
@@ -1010,13 +1011,32 @@ if (cmd.startsWith(`${prefix}kick`)) {
         kReason = "Desrespeito ou má convivência.";
     }
 
-    // Embed construido para enviar ao chat no qual comando foi utilizado
-    let simpleEmbedKick = new Discord.MessageEmbed()
-    .setColor("#ff8000")
-    .setDescription(`${kUser} foi kickado do servidor.`)
-    .setImage('https://cdn.discordapp.com/attachments/351504904256356353/715662884457414666/Burrice.gif');
+    database.ref(`bangif/${message.author.id}`).once('value')
+        .then(async function(snap) {
+            if (snap.val === null) {
+                database.ref(`bangif/${message.author.id}`)
+                .set({
+                    GIF: "https://cdn.discordapp.com/attachments/351504904256356353/715662884457414666/Burrice.gif"
+                })
+            } 
+        })
+    
+    database.ref(`bangif/${message.author.id}`).once('value')
+    .then(async function(snap) {
+        thegif = snap.val().GIF
 
-    message.channel.send(simpleEmbedKick);
+        let simpleEmbedKick = new Discord.MessageEmbed()
+        .setColor("#ff8000")
+        .setDescription(`${kUser} foi kickado do servidor.`)
+        .setImage(thegif);
+
+        try {
+            message.channel.send(simpleEmbedKick);
+        } catch(e) {
+            message.channel.send("deu algo errado.")
+        }
+    })
+
 
     // Embed que será mandado no chat de punidos
     let KickEmbed = new Discord.MessageEmbed().setTitle("Usuário kickado.")
