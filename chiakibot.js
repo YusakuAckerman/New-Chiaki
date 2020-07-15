@@ -399,12 +399,26 @@ if (cmd.startsWith(`${prefix}setlevel`)) {
 }
 
 if (cmd.startsWith(`${prefix}letbangif`)) {
-    let varteste = args[0]
+    let userGif = args[0]
 
     if (message.content.includes("http")) {
-        return message.channel.send("É um link.")
+        database.ref(`bangif/${message.author.id}`)
+            .once("value").then(async function(snap) {
+                if (snap.val === null) {
+                database.ref(`bangif/${message.author.id}`)
+                .set({
+                    GIF: userGif
+                })
+                } else {
+                    database.ref(`bangif/${message.author.id}`)
+                        .update({
+                            GIF: userGif
+                        })
+                }
+            })
+
     } else {
-        return message.channel.send("Não é um link.")
+        return message.channel.send("Ahn... Isso realmente é um link de imagem? Verifique se há http no começo...")
     }
 }
 
