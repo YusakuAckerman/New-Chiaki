@@ -398,6 +398,14 @@ if (cmd.startsWith(`${prefix}setlevel`)) {
 
 }
 
+if (cmd.startsWith(`${prefix}setbangif`)) {
+    let varteste = args[0]
+
+    if (!varteste.content.includes("http")) {
+        return message.channel.send("Sim, funciona")
+    }
+}
+
 // Daily Coins
 
 if (cmd.startsWith(`${prefix}daily`)) {
