@@ -1034,7 +1034,7 @@ if (cmd.startsWith(`${prefix}kick`)) {
                 .setImage(thegif);
         
                 try {
-                    message.reply(simpleEmbedKick);
+                    message.channel.send(simpleEmbedKick);
                 } catch(e) {
                     message.channel.send("deu algo errado.")
                 }
