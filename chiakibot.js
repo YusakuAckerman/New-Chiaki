@@ -399,7 +399,11 @@ if (cmd.startsWith(`${prefix}setlevel`)) {
 
 }
 
-if (cmd.startsWith(`${prefix}letbangif`)) {
+if (cmd.startsWith(`${prefix}setbangif`)) {
+
+    if (!message.member.roles.cache.find(gm => gm.id === '687785376726777935'))
+        return;
+
     let userGif = args[0]
 
     if (message.content.includes("http")) {
@@ -800,37 +804,41 @@ if (cmd.startsWith(`${prefix}removecolor`)) {
         
         **COMANDOS DE MODERAÇÃO** \n
 
-        .mute - Muta o usuário por um determinado tempo.\n
-        Sintax: .mute @user [tempo]. Tempo: 10s, 10m, 10d. __Caso não diga o tempo, será 15m.__ \n
+        .mute - Muta o usuário por um determinado tempo.
+        Sintax: .mute @user [tempo]. Tempo: 10s, 10m, 10d. __Caso não diga o tempo, será 15m.__ 
 
-        .unmute - Desmuta o usuário mencionado. \n
-        Sintax: .unmute @user \n
+        .unmute - Desmuta o usuário mencionado. 
+        Sintax: .unmute @user 
 
-        .warn - Aplica uma warn a um usuário. Se juntar 3, ele será enviado ao julgamento. \n
-        Sintax: .warn @user \n
+        .warn - Aplica uma warn a um usuário. Se juntar 3, ele será enviado ao julgamento. \
+        Sintax: .warn @user 
 
-        .judge - Manda o membro direto para o julgamento. \n
+        .judge - Manda o membro direto para o julgamento. 
         Sintax: .judge @user
 
-        .unwarn - Remove as Warns de um usuário. \n
+        .unwarn - Remove as Warns de um usuário. 
         Sintax: .unwarn @user
 
-        .clear - Limpar um número entre 2 e 99 de mensagens no chat. \n
+        .wlist - Envia uma mensagem no canal #warneds com a lista de membros com 1st e 2nd warning 
+        Sintax: .wlist 
+
+        .clear - Limpar um número entre 2 e 99 de mensagens no chat. 
         Sintax: .clear [Número]
 
-        .lock - Locka o chat atual. \n
-        .unlock - Unlocka o chat atual. \n
+        .lock - Locka o chat atual. 
+
+        .unlock - Unlocka o chat atual. 
 
         **COMANDOS DE MODERADOR EXPERIENTE+** \n
         **OBS**: O Uso indevido destes comando poderá resultar em perda do Game Master! \n
 
-        .setlevel - Coloca o level do usuário na quantia desejada. \n
+        .setlevel - Coloca o level do usuário na quantia desejada. 
         Sintax: .setlevel @user [Número] 
 
-        .givecoins - Dá a quantia de coins desejada ao usuário. \n
+        .givecoins - Dá a quantia de coins desejada ao usuário. 
         Sintax: .givecoins @user [Número] 
 
-        .debtcoins - Retira a quantia de coins desejada do usuário. \n
+        .debtcoins - Retira a quantia de coins desejada do usuário. 
         Sintax: .debtcoins @user [Número]`)
 
 
