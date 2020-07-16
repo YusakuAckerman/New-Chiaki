@@ -1125,13 +1125,6 @@ if (cmd.startsWith(`${prefix}kick`)) {
             }
         })
 
-
-
-    
-
-
-    message.channel.send(simpleEmbedBan);
-
     const BanEmbed = new Discord.MessageEmbed().setTitle("Usuário banido")
     .setColor("#ff0000")
     .addField("Usuário banido: ", `${bUser}`)
