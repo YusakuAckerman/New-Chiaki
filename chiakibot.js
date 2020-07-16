@@ -1013,7 +1013,7 @@ if (cmd.startsWith(`${prefix}kick`)) {
 
     database.ref(`bangif/${message.author.id}`).once('value')
         .then(async function(snap) {
-            if (snap.val === null) {
+            if (snap.val() === null) {
                 let simpleEmbedKicknoset = new Discord.MessageEmbed()
                 .setColor("#ff8000")
                 .setDescription(`${kUser} foi kickado do servidor.`)
