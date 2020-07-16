@@ -406,7 +406,8 @@ if (cmd.startsWith(`${prefix}setbangif`)) {
 
     let userGif = args[0]
 
-    if (message.content.includes("http")) {
+    if (message.content.includes("http") && 
+        message.content.endsWith(".gif")) {
         database.ref(`bangif/${message.author.id}`)
             .once("value").then(async function(snap) {
                 if (snap.val === null) {
@@ -423,7 +424,7 @@ if (cmd.startsWith(`${prefix}setbangif`)) {
             })
 
     } else {
-        return message.channel.send("Ahn... Isso realmente é um link de imagem ou gif? Verifique se há http no começo...")
+        return message.reply("Ahn... Isso realmente é um link de gif? Verifique se há http no começo e se a extensão é .gif...")
     }
 }
 
@@ -804,6 +805,9 @@ if (cmd.startsWith(`${prefix}removecolor`)) {
         
         **COMANDOS DE MODERAÇÃO** \n
 
+        .setbangif - Seta um Ban/Kick Gif para a mensagem enviada no chat.
+        Sintax: .setbangif [URL]
+
         .mute - Muta o usuário por um determinado tempo.
         Sintax: .mute @user [tempo]. Tempo: 10s, 10m, 10d. __Caso não diga o tempo, será 15m.__ 
 
@@ -820,7 +824,6 @@ if (cmd.startsWith(`${prefix}removecolor`)) {
         Sintax: .unwarn @user
 
         .wlist - Envia uma mensagem no canal #warneds com a lista de membros com 1st e 2nd warning 
-        Sintax: .wlist 
 
         .clear - Limpar um número entre 2 e 99 de mensagens no chat. 
         Sintax: .clear [Número]
@@ -1050,12 +1053,6 @@ if (cmd.startsWith(`${prefix}kick`)) {
             }
         })
 
-    database.ref(`bangif/${message.author.id}`).once('value')
-    .then(async function(snap) {
- 
-    })
-
-
     // Embed que será mandado no chat de punidos
     let KickEmbed = new Discord.MessageEmbed().setTitle("Usuário kickado.")
     .setDescription("Usuário punido.")
@@ -1095,12 +1092,43 @@ if (cmd.startsWith(`${prefix}kick`)) {
     let bReason = args.join(" ").slice(22);
     if (!bReason) {
         bReason = "Desrespeito ou má convivência";        
-    }   
+    } 
+
+        database.ref(`bangif/${message.author.id}`).once('value')
+        .then(async function(snap) {
+            if (snap.val() === null) {
+                const simpleEmbedBannoset = new Discord.MessageEmbed()
+                .setColor("#ff0000")
+                .setImage('https://cdn.discordapp.com/attachments/351504904256356353/715662853780013097/discord-ban-gif-4.gif')
+                .setDescription(`${bUser} foi banido do servidor.`);
+
+                try {
+                    message.channel.send(simpleEmbedBannoset);
+                } catch(e) {
+                    message.channel.send("deu algo errado.")
+                }
+
+            } else {
+                let thegif = snap.val().GIF
+
+                let simpleEmbedBan = new Discord.MessageEmbed()
+                .setColor("#ff8000")
+                .setDescription(`${bUser} foi banido do servidor.`)
+                .setImage(thegif);
+        
+                try {
+                    message.channel.send(simpleEmbedBan);
+                } catch(e) {
+                    message.channel.send("deu algo errado.")
+                }
+
+            }
+        })
+
+
+
     
-    const simpleEmbedBan = new Discord.MessageEmbed()
-    .setColor("#ff0000")
-    .setImage('https://cdn.discordapp.com/attachments/351504904256356353/715662853780013097/discord-ban-gif-4.gif')
-    .setDescription(`${bUser} foi banido do servidor.`);
+
 
     message.channel.send(simpleEmbedBan);
 
@@ -1133,7 +1161,7 @@ if (cmd.startsWith(`${prefix}clear`)) {
 
     let clearmessage = parseInt(args[0]);
     if (isNaN(clearmessage)) {
-         return message.reply("Eu só consigo apagar números... Digite números, por favor.")
+         return message.reply("Eu só consigo apagar se o pedido for em números... Digite números, por favor.")
     }
     if (clearmessage >= 2 && clearmessage <= 100) {
         message.channel.bulkDelete(clearmessage, true);
