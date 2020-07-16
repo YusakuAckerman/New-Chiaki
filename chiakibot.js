@@ -404,13 +404,15 @@ if (cmd.startsWith(`${prefix}setbangif`)) {
     if (!message.member.roles.cache.find(gm => gm.id === '687785376726777935'))
         return;
 
+    await message.delete(message);
+
     let userGif = args[0]
 
     if (message.content.includes("http") && 
         message.content.endsWith(".gif")) {
         database.ref(`bangif/${message.author.id}`)
             .once("value").then(async function(snap) {
-                if (snap.val === null) {
+                if (snap.val() === null) {
                 database.ref(`bangif/${message.author.id}`)
                 .set({
                     GIF: userGif
