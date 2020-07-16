@@ -1112,7 +1112,7 @@ if (cmd.startsWith(`${prefix}kick`)) {
                 let thegif = snap.val().GIF
 
                 let simpleEmbedBan = new Discord.MessageEmbed()
-                .setColor("#ff8000")
+                .setColor("#ff0000")
                 .setDescription(`${bUser} foi banido do servidor.`)
                 .setImage(thegif);
         
