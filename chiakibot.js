@@ -1080,9 +1080,9 @@ if (cmd.startsWith(`${prefix}kick`)) {
 
  if (cmd.startsWith(`${prefix}ban`)) {
      
-    let bUser = message.guild.member(message.mentions.users.first()) || `<@${args[0]}>;`
+    let bUser = message.guild.member(message.mentions.users.first()) || `<@${args[0]}>`;
 
-    if (!message.member.hasPermission("BAN_MEMBERS")) 
+    if (!message.member.hasPermission("BAN_MEMBERS"))   
         return message.reply("Apenas um Game Master pode banir outro membro!");
         
     if (!bUser)
