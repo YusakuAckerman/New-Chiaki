@@ -1080,7 +1080,7 @@ if (cmd.startsWith(`${prefix}kick`)) {
 
  if (cmd.startsWith(`${prefix}ban`)) {
      
-    let bUser = message.guild.member(message.mentions.users.first());
+    let bUser = message.guild.member(message.mentions.users.first()) || args[0];
 
     if (!message.member.hasPermission("BAN_MEMBERS")) 
         return message.reply("Apenas um Game Master pode banir outro membro!");
@@ -1130,8 +1130,8 @@ if (cmd.startsWith(`${prefix}kick`)) {
     const BanEmbed = new Discord.MessageEmbed().setTitle("Usuário banido")
     .setColor("#ff0000")
     .setThumbnail(message.author.avatarURL())
-    .addField("Usuário banido: ", `${bUser} <${bUser.id}>`)
-    .addField("Game Master: ", `${message.author} <${message.author.id}>`)
+    .addField("Usuário banido: ", `${bUser} (${bUser.id})`)
+    .addField("Game Master: ", `${message.author} (${message.author.id})`)
     .addField("Dia: ", datahoje)
     .addField("Motivo:", bReason);
     
