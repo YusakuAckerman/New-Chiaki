@@ -4,7 +4,6 @@ const botconfig = require("./botconfig.json");
 const Discord = require("discord.js");
 const client = new Discord.Client({disableEveryone: true});
 const ms = require("ms");
-const fs = require("fs");
 const mongoose = require("mongoose");
 const dailycooldown = new Set();
 const clainonce = new Set();
@@ -1059,10 +1058,11 @@ if (cmd.startsWith(`${prefix}kick`)) {
     let KickEmbed = new Discord.MessageEmbed().setTitle("Usuário kickado.")
     .setDescription("Usuário punido.")
     .setColor("#ff8000")
-    .addField("Usuário kickado: ", `${kUser}`)
-    .addField("Game Master: ", `${message.author}`)
+    .setThumbnail(message.author.avatarURL())
+    .addField("Usuário kickado: ", `${kUser} (${kUser.id})`)
+    .addField("Game Master: ", `${message.author} (${message.author.id})`)
     .addField("Dia: ", datahoje)
-    .addField("Motivo:", kReason);     
+    .addField("Motivo:", kReason);
     
     // Procura o canal que será mandado a mensagem construida acima.
     message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
@@ -1080,11 +1080,7 @@ if (cmd.startsWith(`${prefix}kick`)) {
 
  if (cmd.startsWith(`${prefix}ban`)) {
      
-    let bUser = message.guild.member(message.mentions.users.first()) || `<@${args[0]}>`;
-
-    if (isNaN(`<@${args[0]}>`.slice(3, 20))) {
-        return message.channel.send("Parou");
-    }
+    let bUser = message.guild.member(message.mentions.users.first());
 
     if (!message.member.hasPermission("BAN_MEMBERS"))   
         return message.reply("Apenas um Game Master pode banir outro membro!");
@@ -1092,8 +1088,8 @@ if (cmd.startsWith(`${prefix}kick`)) {
     if (!bUser)
         return message.reply("Mencione o membro que deseja banir.");
 
-    // if (bUser.roles.cache.find(gm => gm.id === '687785376726777935')) 
-    //    return message.reply("Você não pode banir outro Game Master.");
+    if (bUser.roles.cache.find(gm => gm.id === '687785376726777935')) 
+       return message.reply("Você não pode banir outro Game Master.");
 
     let bReason = args.join(" ").slice(22);
     if (!bReason) {
@@ -1134,19 +1130,15 @@ if (cmd.startsWith(`${prefix}kick`)) {
     const BanEmbed = new Discord.MessageEmbed().setTitle("Usuário banido")
     .setColor("#ff0000")
     .setThumbnail(message.author.avatarURL())
+    .addField("Usuário banido: ", `${bUser} (${bUser.id})`)
     .addField("Game Master: ", `${message.author} (${message.author.id})`)
     .addField("Dia: ", datahoje)
     .addField("Motivo:", bReason);
-        if (bUser = `<@${args[0]}>`) {
-            BanEmbed.addField("Usuário Banido: ", `${bUser} (${args[0]})`)
-        } else { 
-            BanEmbed.addField("Usuário banido: ", `${bUser} (${bUser.id})`)
-        }    
 
     message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
         .send(BanEmbed);''
     
-    // message.guild.member(bUser).ban(bReason);
+    message.guild.member(bUser).ban(bReason);
 
     }
 
