@@ -1134,7 +1134,7 @@ if (cmd.startsWith(`${prefix}kick`)) {
     .addField("Usuário banido: ", `${bUser}`)
     .addField("Game Master: ", `${message.author}`)
     .addField("Dia: ", datahoje)
-    .addField("Motivo:", botconfig.Motivs[bReason]);
+    .addField("Motivo:", botconfig.motivo[bReason]);
     
     message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
         .send(BanEmbed);
