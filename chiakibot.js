@@ -65,7 +65,7 @@ let hora = ("0" + (date_ob.getHours() + 1)).slice(-2) - 4;
 // Minutos
 let minutos = ("0" + (date_ob.getMinutes() + 1)).slice(-2);
 
-// 
+
 let datahoje = (date + "/" + month + "/" + year + " às: " + hora + ":" + minutos );
 
 // ----------------------------------------------------------------------
@@ -89,7 +89,7 @@ client.on('messageDelete', async message => {
         if (message.channel.type === 'dm')
             return;
     
-    logembed = new Discord.MessageEmbed()
+    let logembed = new Discord.MessageEmbed()
     .setDescription(`**Messagem Deletada**`)
     .setColor("#4d00a6")
     .setThumbnail(message.author.avatarURL())
@@ -98,7 +98,8 @@ client.on('messageDelete', async message => {
     .addField("Mensagem deletada:", `${message.content}`)
     .addField("Dia:", datahoje);
      
-    message.guild.channels.cache.find(log => log.id === '732670112905298000')
+    message.guild.channels.cache
+    .find(log => log.id === '732670112905298000')
     .send(logembed);
 
 })
@@ -107,19 +108,18 @@ client.on('guildMemberAdd', member => {
 
     let Welcome = botconfig.Welcome;
     let wImage = Math.floor(Math.random() * Welcome.length);
-    
-    const channel = member.guild.channels.cache.find(ch => ch.id === '717033854199660599');
-        if (!channel) return;
 
     const embed = new Discord.MessageEmbed().setTitle("Bem vindo!!")
     .setColor('#04ff00')
     .setDescription(`Olá ${member}! Seja bem vindo ao servidor!`)
     .setImage(Welcome[wImage])
-    .setFooter('Mafia dos Games © 2020.')
-    channel.send(embed);
+    .setFooter('Mafia dos Games © 2020.');
+
+    member.guild.channels.cache
+    .find(ch => ch.id === '717033854199660599')
+    .send(embed);
 
 })
-
 
 
 // Comandos com prefixo 
@@ -1035,7 +1035,7 @@ if (cmd.startsWith(`${prefix}kick`)) {
                 try {
                     message.channel.send(simpleEmbedKicknoset);
                 } catch(e) {
-                    message.channel.send("deu algo errado.")
+                    message.channel.send("deu algo errado.");
                 }
 
             } else {
@@ -1066,7 +1066,7 @@ if (cmd.startsWith(`${prefix}kick`)) {
     
     // Procura o canal que será mandado a mensagem construida acima.
     message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
-            .send(KickEmbed);
+    .send(KickEmbed);
 
     
     // Kicka o membro e envia a mensagem no canal definido.
@@ -1081,6 +1081,7 @@ if (cmd.startsWith(`${prefix}kick`)) {
  if (cmd.startsWith(`${prefix}ban`)) {
      
     let bUser = message.guild.member(message.mentions.users.first());
+    let avatar = message.mentions.users.first()
 
     if (!message.member.hasPermission("BAN_MEMBERS")) 
         return message.reply("Apenas um Game Master pode banir outro membro!");
@@ -1088,8 +1089,8 @@ if (cmd.startsWith(`${prefix}kick`)) {
     if (!bUser)
         return message.reply("Mencione o membro que deseja banir.");
 
-    if (bUser.roles.cache.find(gm => gm.id === '687785376726777935')) 
-        return message.reply("Você não pode banir outro Game Master.");
+    // if (bUser.roles.cache.find(gm => gm.id === '687785376726777935')) 
+    //    return message.reply("Você não pode banir outro Game Master.");
 
     let bReason = args.join(" ").slice(22);
     if (!bReason) {
@@ -1129,15 +1130,16 @@ if (cmd.startsWith(`${prefix}kick`)) {
 
     const BanEmbed = new Discord.MessageEmbed().setTitle("Usuário banido")
     .setColor("#ff0000")
+    .setThumbnail(avatar.avatarURL())
     .addField("Usuário banido: ", `${bUser}`)
     .addField("Game Master: ", `${message.author}`)
     .addField("Dia: ", datahoje)
-    .addField("Motivo:", bReason);
+    .addField("Motivo:", botconfig.motivo.bReason);
     
     message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
             .send(BanEmbed);
     
-    message.guild.member(bUser).ban(bReason);
+    // message.guild.member(bUser).ban(bReason);
 
     }
 
@@ -1385,8 +1387,9 @@ if (cmd.startsWith(`${prefix}unwarn`)) {
         !unwarnuser.roles.cache.find(warnrole => warnrole.id === '709466532404789268') && 
         !unwarnuser.roles.cache.find(warnrole => warnrole.id === '709466601036054529'))
             return message.reply("O Usuário não possui nenhuma warn.");
-                const unwarnembed = new Discord.MessageEmbed().setColor("#22ff00")
-                .setDescription(`Warn de: ${unwarnuser} removida com sucesso! Game Master: ${message.author}`);
+
+            const unwarnembed = new Discord.MessageEmbed().setColor("#22ff00")
+            .setDescription(`Warn de: ${unwarnuser} removida com sucesso! Game Master: ${message.author}`);
 
     // Remoção de 1st Warning
     if (unwarnuser.roles.cache.find(warnrole => warnrole.id === '709466467128836117')) {
