@@ -3,8 +3,6 @@
 "guild" : "679120108995608598",
 
 
-
-"motivo" : {
 "1" : "Má convivência ou desrespeito.",
 "2" : "Envio de conteúdo NSFW",
 "3" : "Se passando por Staff",
@@ -13,10 +11,7 @@
 "6" : "6",
 "7" : "7",
 "8" : "8",
-"9" : "9"
-},
-
-"Motivs" : ["Má convivência ou desrespeito.", "Envio de conteúdo NSFW"],
+"9" : "9",
 
 "dancegif" : [  "https://cdn.discordapp.com/attachments/351504904256356353/710476343921606716/ByFHOIXvW.gif",
                 "https://cdn.discordapp.com/attachments/351504904256356353/710557001616326716/Sla.gif",
