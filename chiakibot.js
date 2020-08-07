@@ -1082,7 +1082,7 @@ if (cmd.startsWith(`${prefix}kick`)) {
      
     let bUser = message.guild.member(message.mentions.users.first()) || `<@${args[0]}>`;
 
-    if (isNaN(`<@${args[0]}>`.slice(3, 21))) {
+    if (isNaN(`<@${args[0]}>`.slice(3, 20))) {
         return message.channel.send("Parou");
     }
 
