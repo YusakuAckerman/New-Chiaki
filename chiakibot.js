@@ -1082,7 +1082,7 @@ if (cmd.startsWith(`${prefix}kick`)) {
      
     let bUser = message.guild.member(message.mentions.users.first()) || `<@${args[0]}>`;
 
-    if (isNaN(args[0])) {
+    if (isNaN(`<@${args[0]}>`.slice(3, 21))) {
         return message.channel.send("Parou");
     }
 
@@ -1138,7 +1138,7 @@ if (cmd.startsWith(`${prefix}kick`)) {
     .addField("Dia: ", datahoje)
     .addField("Motivo:", bReason);
         if (bUser = `<@${args[0]}>`) {
-            BanEmbed.addField("Usuário Banido: ", `${bUser} ($${args[0]})`)
+            BanEmbed.addField("Usuário Banido: ", `${bUser} (${args[0]})`)
         } else { 
             BanEmbed.addField("Usuário banido: ", `${bUser} (${bUser.id})`)
         }    
