@@ -1130,10 +1130,10 @@ if (cmd.startsWith(`${prefix}kick`)) {
     const BanEmbed = new Discord.MessageEmbed().setTitle("Usuário banido")
     .setColor("#ff0000")
     .setThumbnail(message.author.avatarURL())
-    .addField("Usuário banido: ", `${bUser}`)
-    .addField("Game Master: ", `${message.author}`)
+    .addField("Usuário banido: ", `${bUser} <${bUser.id}>`)
+    .addField("Game Master: ", `${message.author} <${message.author.id}>`)
     .addField("Dia: ", datahoje)
-    .addField("Motivo:", botconfig.bReason);
+    .addField("Motivo:", bReason);
     
     message.guild.channels.cache.find(ch => ch.id === '707253571120529498')
         .send(BanEmbed);''
