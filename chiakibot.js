@@ -223,9 +223,9 @@ client.on("message", async message => {
                     .setDescription(`Parabéns, você avançou para o **level ${nextlevel}**`)
 
                 try {
-                    message.author.send(nxtlevelembed);
+                   await message.author.send(nxtlevelembed);
                 } catch(e) {
-                    console.log(`não pude enviar mensagem no pv para ${message.author}`);
+                   await console.log(`não pude enviar mensagem no pv para ${message.author}`);
                 }
                     
                 }
