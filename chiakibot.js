@@ -225,7 +225,7 @@ client.on("message", async message => {
                 try {
                    await message.author.send(nxtlevelembed);
                 } catch(e) {
-                   await console.log(`não pude enviar mensagem no pv para ${message.author}`);
+                   await console.log(`não pude enviar mensagem no pv para ${message.author.username}`);
                 }
                     
                 }
