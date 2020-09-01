@@ -392,7 +392,7 @@ if (cmd.startsWith(`${prefix}setlevel`)) {
         });
 
         const cmdembed = new Discord.MessageEmbed().setColor("fcfcfc")
-        .setDescription(`${message.author} setou o nivel de ${sendUser} para ${newLevel}`);
+        .setDescription(`${message.author} setou o nivel de ${userUser} para ${newLevel}`);
     
         message.guild.channels.cache
         .find(cmd => cmd.id === '688172961168883747')
