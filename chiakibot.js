@@ -144,6 +144,8 @@ client.on("message", async message => {
     global.xp = '';
     global.nextlevel = '';
     global.GIF = '';
+
+
     let xpadd = Math.floor(Math.random() * 22) + 18;
 
     database.ref(`Level/${message.author.id}`)
@@ -1345,13 +1347,13 @@ if (cmd.startsWith(`${prefix}wlist`)) {
 
     ${warneds_1.array().slice(" \n ")} 
 
-    ══╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬══ 
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 
 
     **SECOND WARNING** \n
     
     ${warneds_2.array().slice(" \n ")} 
 
-    ══╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬═╬══ 
+    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 
 
         `)
     .setFooter("Mafia dos Games © 2020");
