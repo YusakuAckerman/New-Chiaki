@@ -689,8 +689,8 @@ if (cmd.startsWith(`${prefix}coloradd`)) {
                     return message.reply("Você não tem dinheiro para trocar de cor!");
                 }
                  else {
-                    message.member.roles.remove(colors);
-                        message.member.roles.add(colortoadd);
+                    await message.member.roles.remove(colors);
+                        await message.member.roles.add(colortoadd);
                             coins.coins = coins.coins - 200;
                     coins.save();
 
@@ -1595,5 +1595,6 @@ if (cmd.startsWith(`${prefix}slap`)) {
 
 
 });
+
 
 client.login(process.env.token);
