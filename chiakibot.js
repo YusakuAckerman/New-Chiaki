@@ -667,7 +667,7 @@ if (cmd.startsWith(`${prefix}coloradd`)) {
     if (!colortoadd) 
         return message.reply("Verifique se digitou o nome da cor corretamente!");
 
-    try {
+
         
         if (message.member.roles.cache.find(vip => vip.id === '712750471067992116')){
            await message.member.roles.remove(colors);
@@ -702,11 +702,6 @@ if (cmd.startsWith(`${prefix}coloradd`)) {
                 }
             })
         }
-    } 
-    catch(e) {
-        message.channel.send(`Algo inesperado aconteceu, caso persista, fale com Yusaku.`); 
-    }
-
 }
 
     // Comando para remoção de cor.
