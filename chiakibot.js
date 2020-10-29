@@ -690,7 +690,7 @@ if (cmd.startsWith(`${prefix}coloradd`)) {
                 }
                  else {
                     await message.member.roles.remove(colors);
-                        await message.member.roles.add(colortoadd);
+                        message.member.roles.add(colortoadd);
                             coins.coins = coins.coins - 200;
                     coins.save();
 
@@ -704,7 +704,7 @@ if (cmd.startsWith(`${prefix}coloradd`)) {
         }
     } 
     catch(e) {
-        message.channel.send(`Algo inesperado aconteceu, caso persista, fale com ${owner}`); 
+        message.channel.send(`Algo inesperado aconteceu, caso persista, fale com Yusaku.`); 
     }
 
 }
