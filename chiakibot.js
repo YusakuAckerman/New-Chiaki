@@ -683,7 +683,7 @@ if (cmd.startsWith(`${prefix}coloradd`)) {
 
             Money.findOne({
                 userID: message.author.id
-            }, (err, coins), async => {
+            }, (err, coins), async () => {
 
                 if (coins.coins < 200) {
                     return message.reply("Você não tem dinheiro para trocar de cor!");
